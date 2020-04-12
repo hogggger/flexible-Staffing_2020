@@ -1,0 +1,7 @@
+@import '../../custom.scss';
+@import "~taro-ui/dist/style/components/flex.scss";
+.personal-header{
+    background-image: url('../../../images/person_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
