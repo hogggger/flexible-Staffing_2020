@@ -1,0 +1,17 @@
+@import '../../custom.scss';
+.login-header{
+    background-image: url('../../../images/person_background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.at-nav-bar__title {
+    color: #fff !important;
+}
+.at-nav-bar__text{
+    color: #fff !important;
+}
+.login-button{
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -3,7 +3,7 @@ import { View, Picker, Text, Label } from "@tarojs/components";
 import { AtForm, AtInput,AtButton,AtNavBar } from "taro-ui";
 import "./index.scss";
 
-export default class Index extends Component {
+export default class PersonInfo extends Component {
   constructor() {
     super(...arguments);
     this.state = {

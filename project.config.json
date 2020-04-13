@@ -2,7 +2,7 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "flexible-Staffing",
 	"description": "this is  a programe for Flexible Staffing.demo",
-	"appid": "wx7690b7064df0e5fb",
+	"appid": "wx5e010a6e3d4c21d7",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
@@ -12,5 +12,6 @@
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"libVersion": "2.9.5",
 	"condition": {}
 }

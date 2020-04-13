@@ -26,9 +26,7 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
-      'pages/index/index',
-      'pages/personInfo/index',
-      'pages/order/index'
+      'pages/index/index'
 
     ],
     window: {

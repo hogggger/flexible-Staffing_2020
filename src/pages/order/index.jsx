@@ -4,7 +4,7 @@ import { AtButton, AtNavBar, AtList, AtListItem } from "taro-ui";
 import OrderCard from "../../components/orderCard";
 import "./index.scss";
 
-export default class My extends Component {
+export default class Order extends Component {
   constructor() {
     super(...arguments);
     this.state = {
