@@ -4,7 +4,7 @@ import { AtForm, AtInput,AtButton } from "taro-ui";
 import NavBar from 'taro-navigationbar'
 import "./index.scss";
 
-export default class Index extends Component {
+export default class PersonInfo extends Component {
   constructor() {
     super(...arguments);
     this.state = {
