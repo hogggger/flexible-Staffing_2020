@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Picker, Text, Label } from "@tarojs/components";
-import { AtForm, AtInput,AtButton,AtNavBar } from "taro-ui";
+import { AtForm, AtInput,AtButton } from "taro-ui";
+import NavBar from 'taro-navigationbar'
 import "./index.scss";
 
 export default class Index extends Component {
@@ -31,11 +32,9 @@ export default class Index extends Component {
   };
 
   render() {
-    const style = 'margin-top'+ ':'+this.state.navBarMarginTop
     return (
       <View>
-        <AtNavBar color='#000' title='个人信息' fixed leftText='返回' className='' customStyle={style}></AtNavBar>    
-        <View className='padding-top-90'></View>
+        <NavBar title='个人信息' back></NavBar>
         <AtForm>
           <AtInput title='姓名' placeholder='姓名'></AtInput>
           <AtInput title='身份证' placeholder='身份证'></AtInput>

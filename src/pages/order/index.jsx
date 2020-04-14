@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
-import { AtButton, AtNavBar, AtList, AtListItem } from "taro-ui";
+import { AtButton, AtList, AtListItem } from "taro-ui";
+import NavBar from 'taro-navigationbar';
 import OrderCard from "../../components/orderCard";
 import "./index.scss";
 
@@ -34,19 +35,9 @@ export default class My extends Component {
   };
 
   render() {
-    const style = "margin-top" + ":" + this.state.navBarMarginTop;
     return (
       <View>
-        <AtNavBar
-          color='#000'
-          title='订单详情'
-          fixed
-          leftText='返回'
-          className=''
-          customStyle={style}
-        ></AtNavBar>
-        {/* 这个padding是为了弥补之前导航栏的高度塌陷 */}
-        <View className='padding-top-140'></View>
+        <NavBar title='订单详情' back></NavBar>
         <AtList>
           {/* order-title */}
           <AtListItem

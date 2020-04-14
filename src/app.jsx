@@ -27,7 +27,7 @@ class App extends Component {
     pages: [
       // 组件不可在此注册
       'pages/index/index',
-      'pages/personInfo/index',
+      // 'pages/personInfo/index',
       'pages/order/index'
 
     ],
