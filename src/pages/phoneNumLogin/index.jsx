@@ -1,4 +1,4 @@
-import Taro, { Component, showModal } from "@tarojs/taro";
+import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Input, Button } from "@tarojs/components";
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui";
 import NavBar from 'taro-navigationbar'
