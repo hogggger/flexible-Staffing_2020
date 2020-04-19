@@ -27,11 +27,18 @@ class App extends Component {
     pages: [
       // 组件不可在此注册
       'pages/identifyCard/index',
-      'pages/phoneNumLogin/index',
-      'pages/login/index',
-      'pages/index/index',
+      'pages/order/index',
       'pages/personInfo/index',
-      'pages/order/index'
+      
+      'pages/login/index',
+      'pages/phoneNumLogin/index',
+      'pages/index/index',
+      
+      
+      
+      
+      
+      
 
     ],
     window: {
