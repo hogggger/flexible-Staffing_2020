@@ -8,7 +8,7 @@ let startY = 0;
 let canvasw = 0;
 let canvash = 0;
 
-export default class Signature extends Component<any, any> {
+export default class Sign extends Component<any, any> {
 
   config: Config = {
     navigationBarTitleText: '签字版'
