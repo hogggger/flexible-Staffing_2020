@@ -50,7 +50,7 @@ export default class IdentifyCard extends Component {
                         <View > <Skeleton></Skeleton></View>
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={3}>
-                        <View ><Skeleton></Skeleton></View>
+                        <View ><Skeleton></Skeleton> <Skeleton></Skeleton></View>
                     </AtTabsPane>
                 </AtTabs>
             </View>
