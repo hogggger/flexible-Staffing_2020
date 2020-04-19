@@ -9,8 +9,6 @@ export default class My extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      // 胶囊高度
-      navBarMarginTop: Taro.$navBarMarginTop + "px",
       taskRequirementsTitle:['性别','年龄','学历','专业技能'],
       // 获取到数据之后解构成一个字符串数组
       taskRequirementsContent:['男','24-40','不限','财会分析能力']
