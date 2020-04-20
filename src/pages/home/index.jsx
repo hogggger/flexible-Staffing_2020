@@ -11,7 +11,8 @@ export default class Home extends Component {
   constructor(){
     super(... arguments)
     this.state = {
-
+      // orderID是一个临时数据
+      orderID:123112312
     }
   }
   componentWillMount() { }
@@ -23,6 +24,19 @@ export default class Home extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
+  // skeleton跳转数据
+  navigatete(e){
+    const orderID = this.state.orderID
+    console.log('打印数据',e)
+    Taro.navigateTo({
+     url:'../../pages/order/index?orderID=' + orderID,
+
+     success:function(res){
+      //  通过eventChannel来发送数据
+      res.eventChannel.emit('acceptDataFromOpenedPage',{data:'test'})
+     } 
+    })
+  }
 
   render() {
     return (
@@ -56,10 +70,10 @@ export default class Home extends Component {
         {/* 订单卡片 */}
         <View className='bg-grey padding-bottom-20'>
           <View className='padding-lrt-20'>
-            <Skeleton></Skeleton>
+            <Skeleton buttonName='申请任务' tagName='市场营销'  onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}></Skeleton>
           </View>
           <View className='padding-lrt-20'>
-            <Skeleton></Skeleton>
+            <Skeleton buttonName='查看详情'></Skeleton>
           </View>
           <View className='padding-lrt-20'>
             <Skeleton></Skeleton>

@@ -15,10 +15,16 @@ export default class My extends Component {
     };
   }
   componentWillMount() {
+    console.log(this.$router.params)
    }
 
   componentDidMount() {
-
+    console.log('emit',this.$scope.getOpenerEventChannel()) 
+    const eventChannel =this.$scope.getOpenerEventChannel()
+    // console.log('emit',this.$mp.page.getOpenerEventChannel())
+    eventChannel.on('acceptDataFromOpenedPage', function(data) {
+      console.log('data',data)
+    })
    }
 
   componentWillUnmount() { }
