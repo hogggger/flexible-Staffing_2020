@@ -41,7 +41,7 @@ export default class IdentifyCard extends Component {
                 <NavBar title='我的任务' back></NavBar>
                 <AtTabs current={this.state.current} tabList={tabList} onClick={this.handleClick.bind(this)}>
                     <AtTabsPane current={this.state.current} index={0} >
-                        <View  ><Skeleton></Skeleton></View>
+                        <View  ><Skeleton tagName='市场垂直营销'></Skeleton></View>
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={1}>
                         <View ><Skeleton></Skeleton></View>
