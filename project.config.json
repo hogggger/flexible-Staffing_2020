@@ -2,9 +2,9 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "flexible-Staffing",
 	"description": "this is  a programe for Flexible Staffing.demo",
-	"appid": "wx7690b7064df0e5fb",
+	"appid": "wx187b790eabb08901",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"preloadBackgroundData": false,

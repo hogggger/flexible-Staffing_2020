@@ -11,7 +11,6 @@ export default class PersonInfo extends Component {
       genderSelector: ["男", "女"],
       genderSelectorSelected: ["男"],
       // 胶囊高度
-      navBarMarginTop:Taro.$navBarMarginTop +'px'
     };
   }
   componentWillMount() {
