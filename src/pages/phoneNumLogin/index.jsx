@@ -2,6 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Input, Button } from "@tarojs/components";
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui";
 import NavBar from 'taro-navigationbar'
+import api from '../../service/api'
 const util = require("../../util/util")
 import "./index.scss";
 
@@ -32,11 +33,20 @@ export default class PersonNumLogin extends Component {
     componentDidShow() { }
 
     componentDidHide() { }
+    phoneNumberLogin(){}
 
     config = {
         navigationBarTitleText: "gxvashgvxhahg",
         navigationStyle: 'custom'
     };
+        // 获取短信验证码
+    getCodeApi(phoneNumber){
+        api.post('http://192.168.20.105:99/app/register/sms',{mobile:phoneNumber},'application/x-www-form-urlencoded')
+    }
+    // 手机账号登录状态
+    // phoneNumberLogin(){
+    //     api.post('http://192.168.20.105:99/app/register',{mobile:'18163741211'},'application/x-www-form-urlencoded')
+    // }
     // 保存录入的手机号码
     changePhoneNumber(e) {
         this.setState({
@@ -66,9 +76,10 @@ export default class PersonNumLogin extends Component {
         }, 900);
     }
     // 倒计时计时器
-    sendCode() {
+    getCode() {
         let phoneNumber = this.state.phoneNumber
         if (phoneNumber && util.isTelPhone(phoneNumber)) {
+            this.getCodeApi(phoneNumber)
             this.setState({
                 disableing: true,
                 tips:'验证码已经发送,请检查信息',
@@ -96,14 +107,14 @@ export default class PersonNumLogin extends Component {
                         <AtInput border={true} required={true} placeholder='手机号码' name='phoneNumber' value={this.state.phoneNumber} title='手机号码' onChange={this.changePhoneNumber.bind(this)}>
                             <View className='margin-right-10 width-200'>
                                 { !this.state.disableing ?
-                                    <AtButton size='small' type='primary' onClick={this.sendCode.bind(this)} >发送验证码</AtButton>
+                                    <AtButton size='small' type='primary' onClick={this.getCode.bind(this)} >发送验证码</AtButton>
                                     : <AtButton disabled circle size='small' type='primary' >{this.state.countDown}秒</AtButton>
                                 }
                             </View>
                         </AtInput>
                         <AtInput border={true} required={true} placeholder='验证码' name='number' title='验证码' ></AtInput>
                         <View className='margin-top-140 width-300'>
-                            <AtButton className='bg-blue' onClick={this.sendCode.bind(this)}>提交验证并登录</AtButton>
+                            <AtButton className='bg-blue' onClick={this.getCode.bind(this)}>提交验证并登录</AtButton>
                         </View>
                         {/* modal */}
                         {this.state.showModal &&

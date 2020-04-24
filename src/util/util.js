@@ -16,8 +16,18 @@ const isTelPhone = (str) => {
     let reg = /^(1[3456789]\d{9})$/;
     return reg.test(str);
   }
+/**
+ * [logError 请求接口报错处理]
+ *
+ * @param   
+ * @returns 
+ */
+const logError = (name,info)=>{
+    console.log('错误信息', name,info)
+}
 
 module.exports = {
     getCapsulePosition,
-    isTelPhone
+    isTelPhone,
+    logError
 }

@@ -12,30 +12,12 @@ export default class PersonInfo extends Component {
     }
 
     componentWillMount() {
-        // console.log('看数据',this.state.navBarMarginTop)
-        console.log('打印登录信息')
-        this.dologin()
- 
     }
 
     componentDidMount() { }
 
     componentWillUnmount() { }
-    dologin = ()=>{
-        Taro.login({
-            success(res){
-                console.log('res',res.code)
-                Taro.request({
-                    url:'http://m8mhir.natappfree.cc/fsp/app/login?',
-                    data:{code:res.code},
-                    header:{ 'content-type':'application/x-www-form-urlencoded'},
-                    method:"POST"
-                }).then((res1)=>{
-                    console.log(res1)
-                })
-            }
-        })
-    }
+
     componentDidShow() { }
 
     componentDidHide() { }

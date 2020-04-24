@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import 'taro-ui/dist/style/index.scss' 
 import Index from './pages/index'
 const util = require('./util/util')
+import api from "./service/api"
 
 import './app.scss'
 
@@ -15,6 +16,7 @@ class App extends Component {
 
   componentDidMount () {
     util.getCapsulePosition()
+    api.login()
   }
 
   componentDidShow () {}
@@ -26,16 +28,19 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
-      'pages/login/index',
+      'pages/phoneNumLogin/index',
       'pages/index/index',
+      
+      'pages/login/index',
       'pages/allTask/index',
       'pages/sign/index',
       'pages/contract/index',
       'pages/order/index',
       'pages/identifyCard/index',
       'pages/personInfo/index',
+      'pages/my/index'
       
-      'pages/phoneNumLogin/index'
+      
       
       
       
