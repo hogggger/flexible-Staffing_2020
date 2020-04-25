@@ -16,7 +16,7 @@ class App extends Component {
 
   componentDidMount () {
     util.getCapsulePosition()
-    api.login()
+    // api.login()
   }
 
   componentDidShow () {}
@@ -28,17 +28,15 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
-      'pages/phoneNumLogin/index',
       'pages/index/index',
-      
+      'pages/phoneNumLogin/index',
       'pages/login/index',
       'pages/allTask/index',
       'pages/sign/index',
       'pages/contract/index',
       'pages/order/index',
       'pages/identifyCard/index',
-      'pages/personInfo/index',
-      'pages/my/index'
+      'pages/personInfo/index'
       
       
       

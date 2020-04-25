@@ -17,6 +17,11 @@ export default class My extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
+  // 获取个人信息
+  getUserInfo(res){
+    console.log(res)
+  }
+  // 跳转到具体页面
   navigateTo(name,e){
     console.log('eeeeee',name)
     let url = null
@@ -62,7 +67,7 @@ export default class My extends Component {
         <View>
           <AtList>
             <AtListItem
-              title='全部账单'
+              title='个人资料'
               extraText='详细信息'
               arrow='right'
               iconInfo={{ size: 25, color: "#78A4FA", value: "calendar" }}
@@ -80,16 +85,23 @@ export default class My extends Component {
               iconInfo={{ size: 25, color: "#FF4949", value: "bookmark" }}
               onClick={this.navigateTo.bind(this,'task')}
             />
+            <AtListItem
+              title='我的协议'
+              extraText='详细信息'
+              arrow='right'
+              iconInfo={{ size: 25, color: "#82C272", value: "folder" }}
+            />
             {/* <View data-way='123'  onClick={this.navigateTo.bind(this)}>123</View> */}
             <AtListItem
-              title='我的团队'
-              extraText='详细信息'
+              title='我的身份证'
+              extraText='去认证'
               arrow='right'
               iconInfo={{ size: 25, color: "#D87B7B", value: "money" }}
             />
           </AtList>
         </View>
-        <View><AtButton>退出登录</AtButton></View>
+        <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag'>退出登录</AtButton></View>
+        <AtButton openType='getUserInfo' onGetUserInfo={this.getUserInfo}>huo</AtButton>
       </View>
     );
   }
