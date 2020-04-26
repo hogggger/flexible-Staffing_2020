@@ -19,7 +19,11 @@ export default class PersonNumLogin extends Component {
             // 验证码页面,true显示,默认隐藏
             countDown: 60,
             // 弹窗提示
-            tips:'检测到您的手机号码不合法,请点击确定后修改'
+            tips:'检测到您的手机号码不合法,请点击确定后修改',
+            //验证码
+            verifyCode:null,
+            // button_loading
+            send_loading:false
         };
     }
     componentWillMount() {
@@ -39,8 +43,21 @@ export default class PersonNumLogin extends Component {
         navigationBarTitleText: "gxvashgvxhahg",
         navigationStyle: 'custom'
     };
+    // 发送手机号和短信验证码
+    sendVerifyCode(){
+        console.log('验证码',this.state.verifyCode)
+        let code = this.state.verifyCode
+        let phone = this.state.phoneNumber
+        if(code && phone){
+            api.post('http://192.168.20.105:99/app/register',{mobile:phone,verifyCode:code},'application/x-www-form-urlencoded').then(res=>{
+                console.log('注册结果是',res)
+            })
+        }
+        // 设置button为loading
+    }
         // 获取短信验证码
     getCodeApi(phoneNumber){
+        console.log('发送手机号获取验证码')
         api.post('http://192.168.20.105:99/app/register/sms',{mobile:phoneNumber},'application/x-www-form-urlencoded')
     }
     // 手机账号登录状态
@@ -51,6 +68,12 @@ export default class PersonNumLogin extends Component {
     changePhoneNumber(e) {
         this.setState({
             phoneNumber: e
+        })
+    }
+    // 保存验证码
+    changeVerifycode(code){
+        this.setState({
+            verifyCode:code
         })
     }
     // 点击确定隐藏modal
@@ -112,9 +135,9 @@ export default class PersonNumLogin extends Component {
                                 }
                             </View>
                         </AtInput>
-                        <AtInput border={true} required={true} placeholder='验证码' name='number' title='验证码' ></AtInput>
+                        <AtInput border={true} required={true} placeholder='验证码' name='number' title='验证码' value={this.state.verifyCode} onChange={this.changeVerifycode.bind(this)}></AtInput>
                         <View className='margin-top-140 width-300'>
-                            <AtButton className='bg-blue' onClick={this.getCode.bind(this)}>提交验证并登录</AtButton>
+                            <AtButton className='bg-blue' loading={this.state.send_loading} onClick={this.sendVerifyCode.bind(this)}>提交验证并登录</AtButton>
                         </View>
                         {/* modal */}
                         {this.state.showModal &&

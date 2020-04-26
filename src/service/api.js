@@ -28,20 +28,21 @@ export default {
       data: data,
       method: method,
       header: {
-        "cpntent-type": contentType,
+        "content-type": contentType,
         // 预留token
         'Authorization': token
       },
       success(res) {
-        if (res.statusCode === HTTP_STATUS.NOT_FOUND) {
-          return logError("api", "请求资源不存在");
-        } else if (res.statusCode === HTTP_STATUS.BAD_GATEWAY) {
-          return logError("api", "服务端出现了问题");
-        } else if (res.statusCode === HTTP_STATUS.FORBIDDEN) {
-          return logError("api", "没有访问权限");
-        } else if (res.statusCode === HTTP_STATUS.SUCCESS) {
-          return res.data;
-        }
+        // if (res.statusCode === HTTP_STATUS.NOT_FOUND) {
+        //   return logError("api", "请求资源不存在");
+        // } else if (res.statusCode === HTTP_STATUS.BAD_GATEWAY) {
+        //   return logError("api", "服务端出现了问题");
+        // } else if (res.statusCode === HTTP_STATUS.FORBIDDEN) {
+        //   return logError("api", "没有访问权限");
+        // } else if (res.statusCode === HTTP_STATUS.SUCCESS) {
+        //   return res.data;
+        // }
+        return res.data;
       },
       error(e) {
         logError("api", e);
@@ -70,7 +71,7 @@ export default {
   login() {
     // 获取缓存中的token值,有则使用verify,没有使用login
     let token = Taro.getStorageSync("token");
-    // console.log("有", token);
+    console.log("有", token);
     if (token) {
       Taro.request({
         url: "http://192.168.20.105:99/app/login/verify",
@@ -99,7 +100,7 @@ export default {
           // console.log('获取code的值',res.code)
           let code = res.code;
           Taro.request({
-            url: "http://gc9wf7.natappfree.cc/app/login",
+            url: "http://192.168.20.105:99/app/login",
             data: { code: code },
             method: "POST",
             header: { "content-type": "application/x-www-form-urlencoded" }
@@ -108,7 +109,7 @@ export default {
             let new_token = value.data.token;
             Taro.setStorageSync('token',new_token);
             // console.log('12312',Taro.getStorageSync('token'))
-            // console.log("重新获取到的token", value.data.token);
+            console.log("重新获取到的login的信息", value);
             // const newone = Taro.getStorageSync({
             //     key:'token'
             // });
