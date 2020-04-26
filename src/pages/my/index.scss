@@ -6,7 +6,20 @@
     background-size: cover;
 }
 .width-200{
-    width: 400px;
+    width: 500px;
     margin-left: auto;
     margin-right: auto;
+}
+.circle{
+    border-radius: 50%;
+    background-clip: border-box;
+    overflow: hidden;
+    
+}
+.width-height-400{
+    width: 150px;
+    height: 150px;
+}
+.opendata{
+
 }

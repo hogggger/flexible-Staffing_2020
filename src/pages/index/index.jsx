@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import { AtTabBar ,AtDivider} from "taro-ui";
+import { hasMobile } from "../../util/util"
 import "./index.scss";
 import Home from "../home";
 import My from "../my";
@@ -13,15 +14,7 @@ export default class Index extends Component {
       navTitleArray: ['任务大厅', '我的']
     };
   }
-  tabbarClick(value) {
-    this.setState({
-      tabbarCurrent: value,
-    })
-    Taro.setNavigationBarTitle({
-      title: this.state.navTitleArray[value]
-    })
-    console.log(this.state.tabbarCurrent)
-  }
+
   componentWillMount() { }
 
   componentDidMount() { }
@@ -31,7 +24,25 @@ export default class Index extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-
+  tabbarClick(value) {
+    console.log('点击题跳转到我的',value)
+    // 如果value为1,跳转到我的之前先判断缓存中mobile有没有值
+    let has= hasMobile()
+    if( has ){
+      this.setState({
+        tabbarCurrent: value,
+      })
+      Taro.setNavigationBarTitle({
+        title: this.state.navTitleArray[value]
+      })
+    }else{
+      // 没有手机号跳转到注册
+      Taro.navigateTo({
+        url:'../phoneNumLogin/index'
+      })
+    }
+    console.log(this.state.tabbarCurrent)
+  }
   config = {
     navigationBarTitleText: "任务大厅"
   };

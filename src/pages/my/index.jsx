@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View } from "@tarojs/components";
+import { View, OpenData } from "@tarojs/components";
 import { AtAvatar, AtList, AtListItem, AtButton } from "taro-ui";
 import "./index.scss";
 
@@ -45,14 +45,16 @@ export default class My extends Component {
       <View>
         {/* 头像部分 */}
         <View className='border-transparent personal-header text-center'>
-          <AtAvatar
+          {/* <AtAvatar
             className='header-icon'
             image="http://storage.360buyimg.com/mtd/home/32443566_635798770100444_2113947400891531264_n1533825816008.jpg"
             size='large'
             circle
-          ></AtAvatar>
-          <View className='font-size-14 color-lightgrey'>游客</View>
-          <View className='font-size-14 color-lightgrey margin-top-10'>181****1211</View>
+          ></AtAvatar> */}
+          {/* 调用开放 */}
+          <View className='width-height-400  header-icon circle'> <OpenData  type='userAvatarUrl'/></View>
+          <View className='font-size-18 color-lightgrey'><OpenData  type='userNickName'/></View>
+          {/* <View className='font-size-14 color-lightgrey margin-top-10'>181****1211</View> */}
         </View>
         {/* 个人数值 */}
         <View className='at-row at-row--wrap margin-tb-20'>
@@ -101,7 +103,7 @@ export default class My extends Component {
           </AtList>
         </View>
         <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag'>退出登录</AtButton></View>
-        <AtButton openType='getUserInfo' onGetUserInfo={this.getUserInfo}>huo</AtButton>
+        {/* <AtButton openType='getUserInfo' onGetUserInfo={this.getUserInfo}>huo</AtButton> */}
       </View>
     );
   }

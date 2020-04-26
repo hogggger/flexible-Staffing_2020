@@ -27,16 +27,16 @@ class App extends Component {
 
   componentDidCatchError () {}
 // 获取人员信息
-getPersonInfo(){
-  api.get('http://192.168.20.105:99/app/labor/info',{},'application/x-www-form-urlencoded').then(res=>{
-    console.log('获取到个人信息',res)
-  })
-}
+// getPersonInfo(){
+//   api.get('http://192.168.20.105:99/app/labor/info',{},'application/x-www-form-urlencoded').then(res=>{
+//     console.log('获取到个人信息',res)
+//   })
+// }
 
   config = {
     pages: [
       // 组件不可在此注册
-      // 'pages/index/index',
+      'pages/index/index',
       'pages/phoneNumLogin/index',
       'pages/login/index',
       'pages/allTask/index',

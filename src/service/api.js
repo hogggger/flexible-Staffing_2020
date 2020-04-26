@@ -9,7 +9,7 @@
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "../config/HTTP_STATUS";
 import { base } from "../config/base";
-import { logError } from "../util/util";
+import { logError ,setLaborIntoStorage} from "../util/util";
 
 export default {
   baseOption(params, method = "GET") {
@@ -75,18 +75,23 @@ export default {
     if (token) {
       Taro.request({
         url: "http://192.168.20.105:99/app/login/verify",
-        data: {
-          token: token
-        },
+        // data: {
+        //   token: token
+        // },
         header: {
-          "content-type": "application/x-www-form-urlencoded"
+          "content-type": "application/x-www-form-urlencoded",
+           // 预留token
+          'Authorization': token
         },
         method: "POST"
       }).then(res => {
-        // console.log("使用token登录结果",res.data.code)
+        // console.log("使用token登录结果",res)
         let code = res.data.code;
+        let laborInfo = res.data.labor
         if (code === 0) {
           console.log("登录成功");
+        // 将劳务人员信息存入缓存中
+        setLaborIntoStorage(laborInfo)
         } else {
           console.log("登录失败");
           Taro.removeStorageSync("token");
@@ -105,11 +110,13 @@ export default {
             method: "POST",
             header: { "content-type": "application/x-www-form-urlencoded" }
           }).then(value => {
-           
-            let new_token = value.data.token;
-            Taro.setStorageSync('token',new_token);
-            // console.log('12312',Taro.getStorageSync('token'))
             console.log("重新获取到的login的信息", value);
+            //将token值放入到缓存中  
+            let new_token = value.data.token;
+            let laborInfo = value.data.labor
+            Taro.setStorageSync('token',new_token);
+            // 将劳务人员信息放入缓存中
+            setLaborIntoStorage(laborInfo)
             // const newone = Taro.getStorageSync({
             //     key:'token'
             // });

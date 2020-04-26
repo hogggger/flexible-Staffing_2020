@@ -25,9 +25,21 @@ const isTelPhone = (str) => {
 const logError = (name,info)=>{
     console.log('错误信息', name,info)
 }
-
+// 存入人员信息到缓存中
+const setLaborIntoStorage = (labor)=>{
+    let laborInfo = {...labor}
+    Taro.setStorageSync('labor',laborInfo)  
+}
+// 判断缓存中有没有labor.mobile值,没有则未注册
+const hasMobile = () =>{
+    let laborInfo = Taro.getStorageSync('labor')
+    let mobile = laborInfo.mobile
+    return isTelPhone(mobile)
+}
 module.exports = {
     getCapsulePosition,
     isTelPhone,
-    logError
+    logError,
+    setLaborIntoStorage,
+    hasMobile
 }

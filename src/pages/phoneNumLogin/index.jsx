@@ -22,7 +22,7 @@ export default class PersonNumLogin extends Component {
             tips:'检测到您的手机号码不合法,请点击确定后修改',
             //验证码
             verifyCode:null,
-            // button_loading
+            // 提交验证按钮的加载状态
             send_loading:false
         };
     }
@@ -45,15 +45,32 @@ export default class PersonNumLogin extends Component {
     };
     // 发送手机号和短信验证码
     sendVerifyCode(){
+        // 点击发送按钮之后,按钮进入加载状态
+        this.setState({
+            send_loading:true
+        })
         console.log('验证码',this.state.verifyCode)
         let code = this.state.verifyCode
         let phone = this.state.phoneNumber
         if(code && phone){
             api.post('http://192.168.20.105:99/app/register',{mobile:phone,verifyCode:code},'application/x-www-form-urlencoded').then(res=>{
                 console.log('注册结果是',res)
+                // res.code = 0 msg:“注册成功”
+                if(res.data.code == 0){
+                    Taro.navigateTo({
+                        url:'../index/index'
+                    })
+                }else{
+                    //显示弹窗,内容为返回的参数,重置验证码
+                    this.setState({
+                        showModal:true,
+                        tips:'提交失败:'+ res.data.msg,
+                        send_loading:false,
+                        verifyCode:null
+                    })
+                }
             })
-        }
-        // 设置button为loading
+        }       
     }
         // 获取短信验证码
     getCodeApi(phoneNumber){
@@ -137,7 +154,7 @@ export default class PersonNumLogin extends Component {
                         </AtInput>
                         <AtInput border={true} required={true} placeholder='验证码' name='number' title='验证码' value={this.state.verifyCode} onChange={this.changeVerifycode.bind(this)}></AtInput>
                         <View className='margin-top-140 width-300'>
-                            <AtButton className='bg-blue' loading={this.state.send_loading} onClick={this.sendVerifyCode.bind(this)}>提交验证并登录</AtButton>
+                            <AtButton className='bg-blue' loading={this.state.send_loading} onClick={this.sendVerifyCode.bind(this)}>提交</AtButton>
                         </View>
                         {/* modal */}
                         {this.state.showModal &&
