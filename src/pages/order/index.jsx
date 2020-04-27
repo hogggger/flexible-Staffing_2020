@@ -15,7 +15,7 @@ export default class My extends Component {
     };
   }
   componentWillMount() {
-    console.log(this.$router.params)
+    console.log('这个是什么',this.$router.params)
    }
 
   componentDidMount() {

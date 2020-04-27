@@ -17,10 +17,16 @@ export default class Skeleton extends Component {
   }
   static defaultProps ={
     buttonName:'申请任务',
+    // 调用方的点击按钮事件侦听
     onSkeletonNavigate:null,
-    // 临时数据
+    // 调用方传入订单号
     orderID:null,
-    tagName:''
+    // 调用方传入标签号
+    tagName:'',
+    // 调用方传入薪酬
+    salary:'',
+    // 截止日期
+    deadline:''
   }
   constructor(props){
     super(props)
@@ -49,11 +55,11 @@ export default class Skeleton extends Component {
   render() {
     return (
       <View  className='at-row at-row--wrap border-grey bg-white' orderID={this.props.orderID}>
-        <View className='skeleton-value'>
+        <View className='skeleton-tag'>
           {/* <Text className='color-orange padding-right-10'>10000</Text>积分 */}
     <AtTag name='tag1' size='small'  className='blue-tag margin-left-10'>{this.props.tagName}</AtTag>
           </View>
-        <View className='title at-col at-col-4 padding-10 margin-left-10'>VIP企业客户体验-会议展览服务</View>
+        <View className='title at-col at-col-4 padding-50 margin-left-10'>会议展览服务</View>
         {/* <View className='tag at-col at-col-4 padding-10'>
             <AtTag name='tag1' size='small'  className='blue-tag margin-left-10'>tag1</AtTag>
             <AtTag name='tag2' size='small'  className='red-tag margin-left-10'>tag2</AtTag>
@@ -61,8 +67,8 @@ export default class Skeleton extends Component {
             <AtTag name='tag4' size='small'  className='orange-tag margin-left-10'>tag4</AtTag>
         </View> */}
         <View className='title padding-10 margin-left-10'><Text className='color-orange padding-right-10'>10000</Text>积分 </View>
-      <View className='skeleton-apply'><AtButton size='small'  className='blue-solid-tag' taroKeys={this.props.orderID} onClick={this.skeletonNavigate.bind(this)}>{this.props.buttonName}</AtButton></View>
-        <View className='summary at-col at-col-4 padding-10 '>
+      {/* <View className='skeleton-apply'><AtButton size='small'  className='blue-solid-tag' taroKeys={this.props.orderID} onClick={this.skeletonNavigate.bind(this)}>{this.props.buttonName}</AtButton></View> */}
+        <View className='summary at-col at-col-4 padding-50'>
             <View className='company margin-10 font-size-14 color-grey'>企业:vip客户体验</View>
             <View className='group margin-10 font-size-14 color-grey'>小组:vip客户体验</View>
             <View className='deadline margin-10 font-size-14 color-grey'>截止时间2020-03-30</View>

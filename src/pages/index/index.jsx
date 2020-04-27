@@ -44,7 +44,7 @@ export default class Index extends Component {
     console.log(this.state.tabbarCurrent)
   }
   config = {
-    navigationBarTitleText: "任务大厅"
+    navigationBarTitleText: "首页"
   };
 
   render() {
@@ -63,7 +63,7 @@ export default class Index extends Component {
         } */}
         <View className='padding-bottom-200'></View>
         <AtTabBar
-          tabList={[{ title: "任务大厅",iconType:'home' }, { title: "我的" ,iconType:'user'}]}
+          tabList={[{ title: "首页",iconType:'home' }, { title: "我的" ,iconType:'user'}]}
           current={this.state.tabbarCurrent}
           onClick={this.tabbarClick.bind(this)}
           fixed

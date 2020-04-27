@@ -24,7 +24,7 @@ export default class Home extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-  // skeleton跳转数据
+  // 侦听skeleton的点击事件并接收一个订单号跳转数据
   navigatete(e){
     const orderID = this.state.orderID
     console.log('打印数据',e)
@@ -70,10 +70,10 @@ export default class Home extends Component {
         {/* 订单卡片 */}
         <View className='bg-grey padding-bottom-20'>
           <View className='padding-lrt-20'>
-            <Skeleton buttonName='申请任务' tagName='市场营销'  onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}></Skeleton>
+            <Skeleton buttonName='查看详情' tagName='市场营销'  onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}></Skeleton>
           </View>
           <View className='padding-lrt-20'>
-            <Skeleton buttonName='查看详情'></Skeleton>
+            <Skeleton buttonName='查看详情' tagName='市场营销'></Skeleton>
           </View>
           <View className='padding-lrt-20'>
             <Skeleton></Skeleton>
