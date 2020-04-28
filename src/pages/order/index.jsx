@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { AtButton, AtList, AtListItem } from "taro-ui";
+import api from "../../service/api"
 import NavBar from 'taro-navigationbar';
 import OrderCard from "../../components/orderCard";
 import "./index.scss";
@@ -37,7 +38,12 @@ export default class My extends Component {
     navigationBarTitleText: "gxvashgvxhahg",
     navigationStyle: "custom"
   };
-
+// 指派订单
+getOrderInfo(){
+  api.get('http://192.168.20.105:99/app/order/list',{page:1,limit:10,status:'confirm'}).then(res=>{
+    console.log('订单',res)
+  })
+}
   render() {
     return (
       <View>

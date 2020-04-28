@@ -203,6 +203,9 @@
 .color-white{
     color: #fff;
 }
+.color-red{
+    color: red;
+}
 // height
 .height-150{
     height: 150px;
@@ -229,6 +232,10 @@
 }
 .bg-blue{
     background-color: #0081ff;
+    color: #fff;
+}
+.bg-blue-light{
+    background-color: #389fff;
     color: #fff;
 }
 // 定制 tab
@@ -275,8 +282,8 @@
     width: 400px;
 }
 .skeleton-apply{
-    position: absolute;
-    margin: 100px 0 0 520px;
+    // position: absolute;
+    // margin: -70px 0 0 520px;
     border: 1px #fff solid;
 }
 // personal information form

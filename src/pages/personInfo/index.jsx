@@ -19,7 +19,6 @@ export default class PersonInfo extends Component {
   componentWillMount() {
     // console.log('看数据',this.state.navBarMarginTop)
     this.getPeronInfo()
-    this.getOrderInfo()
   }
 
   componentDidMount() {
@@ -47,12 +46,6 @@ export default class PersonInfo extends Component {
     })
     console.log('从缓存获取到个人信息', personInfo)
   }
-// 指派订单
-getOrderInfo(){
-  api.get('http://192.168.20.105:99/app/order/list',{page:1,limit:10,status:'confirm'}).then(res=>{
-    console.log('订单',res)
-  })
-}
   render() {
     return (
       <View>
