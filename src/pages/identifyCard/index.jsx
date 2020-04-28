@@ -31,6 +31,7 @@ export default class IdentifyCard extends Component {
                 statusBack:arg
             })
         })
+        // 获取图片上传的token
        this.getFormDataParams()
     }
 

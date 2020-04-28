@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Picker, Text, Label } from "@tarojs/components";
-import { AtForm, AtInput,AtButton } from "taro-ui";
+import api from "../../service/api"
+import { AtForm, AtInput, AtButton } from "taro-ui";
 import NavBar from 'taro-navigationbar'
 import "./index.scss";
 
@@ -8,47 +9,81 @@ export default class PersonInfo extends Component {
   constructor() {
     super(...arguments);
     this.state = {
-      genderSelector: ["男", "女"],
-      genderSelectorSelected: ["男"],
-      // 胶囊高度
+      politicSelector: ["无", "团员", "党员"],
+      // 人员信息
+      person: {},
+      // 多列选择器,地区
+      areaSelector:[['1','2','3','4'],['3','4']]
     };
   }
   componentWillMount() {
     // console.log('看数据',this.state.navBarMarginTop)
+    this.getPeronInfo()
+    this.getOrderInfo()
   }
 
-  componentDidMount() {}
+  componentDidMount() {
 
-  componentWillUnmount() {}
+  }
 
-  componentDidShow() {}
+  componentWillUnmount() { }
 
-  componentDidHide() {}
+  componentDidShow() { }
+
+  componentDidHide() { }
 
   config = {
     navigationBarTitleText: "gxvashgvxhahg",
-    navigationStyle:'custom'
+    navigationStyle: 'custom'
   };
-
+  // 先从缓存里面获取到个人信息以及字典
+  getPeronInfo() {
+    const personInfo = Taro.getStorageSync('identifyCarfInfo')
+    this.setState({
+      person: personInfo
+    })
+    api.get('http://192.168.20.105:99/app/pub/dict', { type_name: 'labor_edu_level' }).then(res => {
+      console.log('拉取信息', res)
+    })
+    console.log('从缓存获取到个人信息', personInfo)
+  }
+// 指派订单
+getOrderInfo(){
+  api.get('http://192.168.20.105:99/app/order/list',{page:1,limit:10,status:'confirm'}).then(res=>{
+    console.log('订单',res)
+  })
+}
   render() {
     return (
       <View>
         <NavBar title='个人信息' back></NavBar>
         <AtForm>
-          <AtInput title='姓名' placeholder='姓名'></AtInput>
-          <AtInput title='身份证' placeholder='身份证'></AtInput>
-          {/* 性别 */}
+          <AtInput title='姓名' placeholder='姓名' value={this.state.person.realname} disabled></AtInput>
+          <AtInput title='身份证' placeholder='身份证' value={this.state.person.number} disabled></AtInput>
+          {/* 年龄 */}
+          <AtInput title='年龄' placeholder='年龄' value={this.state.person.age} disabled></AtInput>
+          {/* 性别  */}
+          <AtInput title='性别' placeholder='性别' value={this.state.person.sex} editable={false}></AtInput>
+          {/* 政治面貌 */}
           <View className='personal-taro-form'>
-            <Label className='personal-taro-title'>性别</Label>
+            <Label className='personal-taro-title'>政治面貌</Label>
             <View className='personnal-taro-selector'>
               {" "}
-              <Picker mode='selector' range={this.state.genderSelector}>
-                <Text>当前选择:{this.state.genderSelectorSelected}</Text>
+              <Picker mode='selector' range={this.state.politicSelector}>
+                <Text>当前选择:{this.state.politicSelector[0]}</Text>
               </Picker>
             </View>
           </View>
-          {/* 年龄 */}
-          <AtInput title='年龄' placeholder='年龄'></AtInput>
+          {/* 期望工作地区  多列选择器*/}
+          <View className='personal-taro-form'>
+            <Label className='personal-taro-title'>期望工作地区</Label>
+            <View className='personnal-taro-selector'>
+              {" "}
+              <Picker mode='multiSelector' range={this.state.areaSelector}>
+                <Text>当前选择:{this.state.areaSelector[0]}</Text>
+              </Picker>
+            </View>
+          </View>
           {/* 现居地 */}
           <AtInput title='现居地' placeholder='现居地'></AtInput>
           {/* 修改按钮 */}
