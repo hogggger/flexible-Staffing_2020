@@ -64,7 +64,10 @@ export default class IdentifyCard extends Component {
                     <AtTabsPane className='padding-20' current={this.state.current}  >
                         {
                             orderArray.map((order)=>{
-                                return <Skeleton></Skeleton> 
+                                return <Skeleton  buttonName="确认任务" orderID={order.order_id} salary={order.m_plan}
+                                starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
+                                orderTitle={order.order_name}
+                                ></Skeleton> 
                                 // 工作进度
                             })
                         }
