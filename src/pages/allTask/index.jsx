@@ -24,7 +24,7 @@ export default class IdentifyCard extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => { return console.log('订单数据', this.state.orderArray) }, 1000)
+     
     }
 
     componentWillUnmount() { }
@@ -53,6 +53,10 @@ export default class IdentifyCard extends Component {
 
         })
     }
+    // HandleToggleShow
+    HandleToggleShow(e){
+        console.log('e',e)
+    }
     render() {
         let orderArray = this.state.orderArray
         const tabList = [{ title: '待确认' }, { title: '待开始' }, { title: '进行中' }, { title: '已完成' }]
@@ -68,7 +72,8 @@ export default class IdentifyCard extends Component {
                                 starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
                                 orderTitle={order.order_name}
                                 ></Skeleton> 
-                                // 工作进度
+                                // 测试地址选择器
+                                
                             })
                         }
                     </AtTabsPane>

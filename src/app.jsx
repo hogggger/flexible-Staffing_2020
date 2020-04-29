@@ -36,8 +36,9 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
-      'pages/allTask/index',
       'pages/personInfo/index',
+      'pages/allTask/index',
+      
       'pages/identifyCard/index',
       'pages/index/index',
       'pages/phoneNumLogin/index',

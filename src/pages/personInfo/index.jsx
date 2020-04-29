@@ -3,6 +3,7 @@ import { View, Picker, Text, Label } from "@tarojs/components";
 import api from "../../service/api"
 import { AtForm, AtInput, AtButton } from "taro-ui";
 import NavBar from 'taro-navigationbar'
+import AreaPIcker from '../../components/areaPIcker'
 import "./index.scss";
 
 export default class PersonInfo extends Component {
@@ -13,7 +14,9 @@ export default class PersonInfo extends Component {
       // 人员信息
       person: {},
       // 多列选择器,地区
-      areaSelector:[['1','2','3','4'],['3','4']]
+      areaSelector:[['1','2','3','4'],['3','4']],
+      // 显示地区选择器
+      showAddressPicker:true
     };
   }
   componentWillMount() {
@@ -35,6 +38,19 @@ export default class PersonInfo extends Component {
     navigationBarTitleText: "gxvashgvxhahg",
     navigationStyle: 'custom'
   };
+  // 地址选择器选择的值
+  HandleToggleShow(e){
+    console.log("地址选择器返回的结果",e)
+    this.setState({
+      showAddressPicker:false
+    })
+  }
+  // 点击加载地址选择器
+  addressPicker(){
+    this.setState({
+      showAddressPicker:true
+    })
+  }
   // 先从缓存里面获取到个人信息以及字典
   getPeronInfo() {
     const personInfo = Taro.getStorageSync('identifyCarfInfo')
@@ -80,6 +96,13 @@ export default class PersonInfo extends Component {
           {/* 现居地 */}
           <AtInput title='现居地' placeholder='现居地'></AtInput>
           {/* 修改按钮 */}
+          {/* 地区选择器 */}
+          
+          {/* 地区选择器 */}
+          <View >
+            <View >123</View>
+          {/* <AreaPIcker pickerShow onHandleToggleShow={this.HandleToggleShow().bind(this)}></AreaPIcker> */}
+          </View>
           <AtButton className='bg-blue'>提交</AtButton>
         </AtForm>
       </View>
