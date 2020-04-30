@@ -1,6 +1,6 @@
 import Taro, { Component, Events } from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
-import { api } from "../../service/api"
+import  api  from "../../service/api"
 import { AtIcon } from "taro-ui";
 import PropTypes from 'prop-types'
 import './index.scss'
@@ -70,14 +70,14 @@ export default class OrderCard extends Component {
                                         
                                     })
                                     //调用事件池,触发一个事件,将身份验证信息传回页面
-                                    Taro.eventCenter.trigger('identifyCarfInfo','true')
+                                    // Taro.eventCenter.trigger('identifyCarfInfo','true')
                                     // 将用户数据存入到缓存中去
                                     Taro.setStorageSync('identifyCarfInfo', data.info)
-                                    Taro.eventCenter.trigger('statusFront',true)
+                                    Taro.eventCenter.trigger('statusFront','true')
                                 } else {
                                     // 失败,展示弹窗,让客户重新上传
                                     console.log('上传数据失败,请上传身份证正面')
-                                    Taro.eventCenter.trigger('statusFront',false)
+                                    Taro.eventCenter.trigger('statusFront','false')
                                 }
                             }else if(side == 'back'){
                                 console.log('背面上传信息',value)
@@ -86,10 +86,10 @@ export default class OrderCard extends Component {
                                         showImage: res.tempFilePaths[0],
                                         uploaded: true,
                                     })
-                                    Taro.eventCenter.trigger('statusBack',true)
+                                    Taro.eventCenter.trigger('statusBack','true')
                                 }else{
                                     console.log("上传失败,请上传身份证反面")
-                                    Taro.eventCenter.trigger('statusBack',false)
+                                    Taro.eventCenter.trigger('statusBack','false')
                                 }
                             }
 
@@ -109,10 +109,10 @@ export default class OrderCard extends Component {
         if(this.props.side == 'front'){
             Taro.removeStorageSync('identifyCarfInfo')
             // 删除的是正面照,触发侦听
-            Taro.eventCenter.trigger('statusFront',false)
+            Taro.eventCenter.trigger('statusFront','false')
         }else if(this.props.side == 'back'){
             //  删除的是背面的照,触发侦听
-            Taro.eventCenter.trigger('statusBack',false)
+            Taro.eventCenter.trigger('statusBack','false')
         }
     }
 

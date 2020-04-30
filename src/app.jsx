@@ -36,14 +36,13 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
+      // 'pages/identifyCard/index',
       'pages/personInfo/index',
+      'pages/sign/index',
       'pages/allTask/index',
-      
-      'pages/identifyCard/index',
       'pages/index/index',
       'pages/phoneNumLogin/index',
       'pages/login/index',
-      'pages/sign/index',
       'pages/contract/index',
       'pages/order/index'
       

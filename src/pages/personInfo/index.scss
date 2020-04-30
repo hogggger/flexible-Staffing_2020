@@ -1,1 +1,12 @@
-@import '../../custom.scss'
+@import '../../custom.scss';
+.selector-title{
+    position: absolute;
+}
+.selector-content{
+    width: 600px;
+    margin-left: 230px;
+}
+.selector-border{
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}

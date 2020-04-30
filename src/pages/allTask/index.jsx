@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Input, Button, Image } from "@tarojs/components";
 import { AtButton, AtTabs, AtTabsPane } from "taro-ui";
+// import { AreaPicker } from "../../components/areaPicker/index"
 import NavBar from 'taro-navigationbar'
 import api from "../../service/api"
 import Skeleton from '../../components/skeleton'
@@ -15,7 +16,7 @@ export default class IdentifyCard extends Component {
             // 当前激活是 0-3 confirm ,pended,active,finish
             current: 0,
             // 订单数组
-            orderArray: []
+            orderArray: [],
         };
     }
     componentWillMount() {
@@ -24,7 +25,7 @@ export default class IdentifyCard extends Component {
     }
 
     componentDidMount() {
-     
+
     }
 
     componentWillUnmount() { }
@@ -53,9 +54,10 @@ export default class IdentifyCard extends Component {
 
         })
     }
+    
     // HandleToggleShow
-    HandleToggleShow(e){
-        console.log('e',e)
+    toggleAddressPicker(e) {
+        console.log('e', e)
     }
     render() {
         let orderArray = this.state.orderArray
@@ -67,15 +69,19 @@ export default class IdentifyCard extends Component {
 
                     <AtTabsPane className='padding-20' current={this.state.current}  >
                         {
-                            orderArray.map((order)=>{
-                                return <Skeleton  buttonName="确认任务" orderID={order.order_id} salary={order.m_plan}
-                                starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
-                                orderTitle={order.order_name}
-                                ></Skeleton> 
+                            orderArray.map((order) => {
+                                return <Skeleton buttonName="确认任务" orderID={order.order_id} salary={order.m_plan}
+                                    starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
+                                    orderTitle={order.order_name}
+                                ></Skeleton>
                                 // 测试地址选择器
-                                
+
                             })
                         }
+                        <View >
+                            <View >123</View>
+                            {/* <AreaPicker  /> */}
+                        </View>
                     </AtTabsPane>
 
                     <AtTabsPane current={this.state.current} index={1}>

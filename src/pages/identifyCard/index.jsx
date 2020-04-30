@@ -31,11 +31,13 @@ export default class IdentifyCard extends Component {
                 statusBack:arg
             })
         })
-        // 获取图片上传的token
-       this.getFormDataParams()
+
     }
 
-    componentDidMount() { }
+    componentDidMount() { 
+    // 获取图片上传的token
+       this.getFormDataParams()
+    }
 
     componentWillUnmount() { }
 
@@ -53,10 +55,11 @@ export default class IdentifyCard extends Component {
         console.log('statusFront',this.state.statusFront)
         let statusFront = this.state.statusFront
         let statusBack = this.state.statusBack
-        if( statusBack ==true && statusFront ==true){
+        if( statusBack == 'true' && statusFront =='true'){
             Taro.navigateTo({
                 url:'../personInfo/index'
             })
+            console.log('跳转')
         }
     } 
 
