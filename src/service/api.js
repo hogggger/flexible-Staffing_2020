@@ -8,7 +8,7 @@
 // basOption方法
 import Taro from "@tarojs/taro";
 import { HTTP_STATUS } from "../config/HTTP_STATUS";
-import { base } from "../config/base";
+import { base ,login_verify,login} from "../config/base";
 import { logError ,setLaborIntoStorage} from "../util/util";
 
 export default {
@@ -23,8 +23,8 @@ export default {
     contentType = params.contentType || contentType;
     const option = {
       isShowLoading: false,
-    //   url: base + url,
-      url:   url,
+      url: base + url,
+      // url:   url,
       data: data,
       method: method,
       header: {
@@ -74,7 +74,7 @@ export default {
     console.log("有", token);
     if (token) {
       Taro.request({
-        url: "http://192.168.20.105:99/app/login/verify",
+        url: base+login_verify,
         // data: {
         //   token: token
         // },
@@ -105,7 +105,7 @@ export default {
           // console.log('获取code的值',res.code)
           let code = res.code;
           Taro.request({
-            url: "http://192.168.20.105:99/app/login",
+            url: base+login,
             data: { code: code },
             method: "POST",
             header: { "content-type": "application/x-www-form-urlencoded" }
@@ -125,6 +125,7 @@ export default {
         }
       });
     }
-  }
+  },
+  // 获取城市信息请求
 };
 

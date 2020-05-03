@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, PickerView, PickerViewColumn } from "@tarojs/components";
 import { AtTag, AtButton } from "taro-ui";
+import { pub_area } from "../../config/base"
 import PropTypes from 'prop-types'
 import api from "../../service/api"
 import './index.scss'
@@ -52,7 +53,7 @@ export default class AreaPicker extends Component {
     componentDidHide() { }
     // 获取省份数据 传递参数是parent_id,获取上一级的数组填入他们的area_id,最终提交的市area_id
     getProvinces() {
-        api.get('http://192.168.20.105:99/app/pub/area', {}).then(res => {
+        api.get(pub_area, {}).then(res => {
             let area = res.data.areas
             console.log('获取到省的信息', res.data.areas)
             // 获取到的信息传入省的数组
@@ -63,7 +64,7 @@ export default class AreaPicker extends Component {
     }
     // 获取市数据,传入省份的area_id 
     getCitys(area_id) {
-        api.get('http://192.168.20.105:99/app/pub/area', { parent_id: area_id }).then(res => {
+        api.get(pub_area, { parent_id: area_id }).then(res => {
             let area = res.data.areas
             console.log('获取到市的信息', res.data.areas)
             const areas = area[0].area_id
@@ -76,7 +77,7 @@ export default class AreaPicker extends Component {
     }
     // 获取区数据,传入市的area_id
     getAreas(area_id) {
-        api.get('http://192.168.20.105:99/app/pub/area', { parent_id: area_id }).then(res => {
+        api.get(pub_area, { parent_id: area_id }).then(res => {
             let area = res.data.areas
             // console.log('获取到区的信息', res.data.areas)
             // 获取到的信息传入区的数组

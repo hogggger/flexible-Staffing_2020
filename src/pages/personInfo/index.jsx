@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Picker, Text, Label, Input } from "@tarojs/components";
 import { AtForm, AtInput, AtButton } from "taro-ui";
+import {pub_dict ,labor_edit,labor_info} from "../../config/base"
 import NavBar from 'taro-navigationbar'
 import api from "../../service/api"
 // 引入地区选择器组件
@@ -68,7 +69,7 @@ export default class PersonInfo extends Component {
     this.setState({
       person: personInfo
     })
-    api.get('http://192.168.20.105:99/app/pub/dict', { type_name: 'labor_edu_level' }).then(res => {
+    api.get(pub_dict, { type_name: 'labor_edu_level' }).then(res => {
       console.log('拉取信息', res)
     })
     console.log('从缓存获取到个人信息', personInfo)
@@ -126,6 +127,17 @@ export default class PersonInfo extends Component {
   onSubmit(event) {
     console.log('提交个人信息', event)
     let form_token = Taro.getStorageSync("form_token")
+    // let data = {
+    //   'labor.realname': 'wangdong',
+    //   'labor.paper_number': '430121199301147739',
+    //   'labor.age': 27,
+    //   'labor.sex': 1,
+    //   'labor.area_id': 1,
+    //   'labor.politics': '团员',
+    //   'labor.nation': '汉',
+    //   'labor.edu_level': '大学',
+    //   'form_token': form_token
+    // }
     let data = {
       'labor.realname': 'wangdong',
       'labor.paper_number': '430121199301147739',
@@ -137,9 +149,9 @@ export default class PersonInfo extends Component {
       'labor.edu_level': '大学',
       'form_token': form_token
     }
-    api.post('http://192.168.20.105:99/app/labor/edit', data, 'application/x-www-form-urlencoded').then(res => {
+    api.post(labor_edit, data, 'application/x-www-form-urlencoded').then(res => {
       console.log('提交之后的返回值', res)
-      api.get('http://192.168.20.105:99/app/labor/info').then(value => {
+      api.get(labor_info).then(value => {
         console.log("刷新的值", value)
       })
     })
@@ -190,8 +202,9 @@ export default class PersonInfo extends Component {
           <View class='selector-border margin-10'><Text className='selector-title'>民族</Text>
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.nationSelector} onChange={this.onSelector.bind(this,'nationSelectorChecked')}>
-                <View className='picker'>
-                  当前选择：{this.state.nationSelector[this.state.nationSelectorChecked]}
+                <View className='picker' >
+                  
+                  {this.state.nationSelectorChecked? this.state.nationSelector[this.state.nationSelectorChecked]:'请选择'}
                 </View>
               </Picker>
             </View>
