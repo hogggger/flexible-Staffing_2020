@@ -1,6 +1,7 @@
 import Taro, { Component, Events } from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import  api  from "../../service/api"
+import {base,labor_identify} from "../../config/base"
 import { AtIcon } from "taro-ui";
 import PropTypes from 'prop-types'
 import './index.scss'
@@ -48,7 +49,7 @@ export default class OrderCard extends Component {
                 console.log('打印数据', res.tempFilePaths[0])
                 if (res.tempFilePaths[0]) {
                     Taro.uploadFile({
-                        url: 'http://192.168.20.105:99/app/labor/identify/idCardVerify',
+                        url: base+labor_identify,
                         header: {
                             'content-type': 'multipart/form-data',
                             'Authorization': token

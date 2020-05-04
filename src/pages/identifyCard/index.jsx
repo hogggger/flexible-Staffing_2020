@@ -1,6 +1,7 @@
 import Taro, { Component,Events } from "@tarojs/taro";
 import { View, Text, Input, Button, Image } from "@tarojs/components";
 import { AtButton } from "taro-ui";
+import { labor_edit } from "../../config/base"
 import api  from "../../service/api"
 import NavBar from "taro-navigationbar"
 import UploadImage from '../../components/uploadImage'
@@ -65,7 +66,7 @@ export default class IdentifyCard extends Component {
 
     // 获取表单初始化参数
     getFormDataParams(){
-      api.get('http://192.168.20.105:99/app/labor/edit').then(res=>{
+      api.get(labor_edit).then(res=>{
         //   console.log('res',res)
           if(res.data.code == 0){
               Taro.setStorageSync('form_token',res.data.param.form_token)

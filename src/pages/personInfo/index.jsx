@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Picker, Text, Label, Input } from "@tarojs/components";
 import { AtForm, AtInput, AtButton } from "taro-ui";
-import {pub_dict ,labor_edit,labor_info} from "../../config/base"
+import {pub_dict ,labor_edit,labor_info,} from "../../config/base"
 import NavBar from 'taro-navigationbar'
 import api from "../../service/api"
 // 引入地区选择器组件
@@ -14,6 +14,7 @@ export default class PersonInfo extends Component {
   constructor() {
     super(...arguments);
     this.state = {
+      placeholder:'请选择',
       // 人员信息
       person: {},
       // 多列选择器,地区
@@ -50,7 +51,11 @@ export default class PersonInfo extends Component {
   }
 
   componentDidMount() {
-
+    let dict = ['labor_politics','labor_nation','labor_edu_level','customer_firm','customer_industry','customer_source']
+    let state = ['politicSelector','nationSelector','eduSelector','cus_firmSelector','cus_industrySelector','cus_sourceSelector']
+    for(let i = 0;i < 6;i++){
+      this.getDict(dict[i],state[i])
+    }
   }
 
   componentWillUnmount() { }
@@ -69,9 +74,9 @@ export default class PersonInfo extends Component {
     this.setState({
       person: personInfo
     })
-    api.get(pub_dict, { type_name: 'labor_edu_level' }).then(res => {
-      console.log('拉取信息', res)
-    })
+    // api.get(pub_dict, { type_name: 'labor_edu_level' }).then(res => {
+    //   console.log('拉取信息', res)
+    // })
     console.log('从缓存获取到个人信息', personInfo)
   }
   // showPicker用来隐藏地图选择器,并且接收选择结果
@@ -123,6 +128,22 @@ export default class PersonInfo extends Component {
       nowPickerShow: true
     })
   }
+  // 获取制定类型的选择项目
+  getDict(dict,stateName){
+    api.get(pub_dict,{type_name:dict}).then(res=>{
+      // console.log('获取指定类型的索引',res.data.items)
+      let items = res.data.items
+      let value = []
+      items.map(item=>{
+        value.push(item.value)
+        return value
+      })
+      // console.log('value的值',value)
+      this.setState({
+        [stateName]:value
+      })
+    })
+  }
   // 提交个人信息
   onSubmit(event) {
     console.log('提交个人信息', event)
@@ -139,14 +160,25 @@ export default class PersonInfo extends Component {
     //   'form_token': form_token
     // }
     let data = {
-      'labor.realname': 'wangdong',
-      'labor.paper_number': '430121199301147739',
-      'labor.age': 27,
-      'labor.sex': 1,
-      'labor.area_id': 1,
-      'labor.politics': '团员',
-      'labor.nation': '汉',
-      'labor.edu_level': '大学',
+      'labor.realname': this.state.person.realname,
+      'labor.paper_number': this.state.person.number,
+      'labor.age': this.state.person.age,
+      // 性别
+      'labor.sex': this.state.person.sex=='男'? 1:0,
+      // 期望工作地区
+      'labor.area_id': this.state.areaInfoCode,
+      // 政治面貌
+      'labor.politics': this.state.politicSelector[this.state.politicSelectorChecked],
+      // 民族
+      'labor.nation': this.state.nationSelector[this.state.nationSelectorChecked],
+      // 教育程度
+      'labor.edu_level': this.state.eduSelector[this.state.eduSelectorChecked],
+      // 客户业务类型
+      'customer.firm':this.state.cus_firmSelector[this.state.cus_firmSelectorChecked],
+      // 客户所属行业
+      'customer.industry':this.state.cus_industrySelector[this.state.cus_industrySelectorChecked],
+      // 客户来源
+      'customer.source':this.state.cus_sourceSelector[this.state.cus_sourceSelectorChecked],
       'form_token': form_token
     }
     api.post(labor_edit, data, 'application/x-www-form-urlencoded').then(res => {
@@ -164,11 +196,6 @@ export default class PersonInfo extends Component {
       [key]: e.detail.value
     })
   }
-  // nationSelector(e){
-  //   this.setState({
-  //     nationSelectorChecked: e.detail.value
-  //   })
-  // }
   // ******************
 
   render() {
@@ -181,9 +208,10 @@ export default class PersonInfo extends Component {
           <AtInput name='labor.paper_numebr' title='身份证' placeholder='身份证' value={this.state.person.number} disabled></AtInput>
           <AtInput title='年龄' placeholder='年龄' value={this.state.person.age} disabled></AtInput>
           <AtInput title='性别' placeholder='性别' value={this.state.person.sex} editable={false}></AtInput>
-          <View className='height-150 ' onClick={this.showAddressPickerEX.bind(this)}>期望工作地点
-          <Input value={this.state.areaInfoContent} placeholder='请选择工作地点'></Input>
-            <Input value={this.state.areaInfoCode}></Input>
+          <View className='selector-border-top margin-10' onClick={this.showAddressPickerEX.bind(this)}>
+            <Text className='selector-title'>期望工作地点</Text>
+          <Input className='selector-content area-margin-top-20' value={this.state.areaInfoContent} placeholder='请选择工作地点'></Input>
+            <Input className='hide' value={this.state.areaInfoCode}></Input>
           </View>
           {/* 地区选择器 */}
           <AreaPicker pickerShow={this.state.pickerShow} place='ex' />
@@ -194,7 +222,7 @@ export default class PersonInfo extends Component {
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.politicSelector} onChange={this.onSelector.bind(this,'politicSelectorChecked')}>
                 <View className='picker'>
-                  当前选择：{this.state.politicSelector[this.state.politicSelectorChecked]}
+    {this.state.politicSelectorChecked?this.state.politicSelector[this.state.politicSelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
@@ -204,7 +232,7 @@ export default class PersonInfo extends Component {
               <Picker mode='selector' range={this.state.nationSelector} onChange={this.onSelector.bind(this,'nationSelectorChecked')}>
                 <View className='picker' >
                   
-                  {this.state.nationSelectorChecked? this.state.nationSelector[this.state.nationSelectorChecked]:'请选择'}
+                  {this.state.nationSelectorChecked? this.state.nationSelector[this.state.nationSelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
@@ -213,7 +241,7 @@ export default class PersonInfo extends Component {
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.eduSelector} onChange={this.onSelector.bind(this,'eduSelectorChecked')}>
                 <View className='picker'>
-                  当前选择：{this.state.eduSelector[this.state.eduSelectorChecked]}
+                  {this.state.eduSelectorChecked?this.state.eduSelector[this.state.eduSelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
@@ -222,7 +250,7 @@ export default class PersonInfo extends Component {
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.cus_firmSelector} onChange={this.onSelector.bind(this,'cus_firmSelectorChecked')}>
                 <View className='picker'>
-                  当前选择：{this.state.cus_firmSelector[this.state.cus_firmSelectorChecked]}
+                 {this.state.cus_firmSelectorChecked?this.state.cus_firmSelector[this.state.cus_firmSelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
@@ -231,16 +259,16 @@ export default class PersonInfo extends Component {
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.cus_industrySelector} onChange={this.onSelector.bind(this,'cus_industrySelectorChecked')}>
                 <View className='picker'>
-                  当前选择：{this.state.cus_industrySelector[this.state.cus_industrySelectorChecked]}
+                  {this.state.cus_industrySelectorChecked?this.state.cus_industrySelector[this.state.cus_industrySelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
           </View>
-          <View class='selector-border margin-10'><Text className='selector-title'>客户来源</Text>
+          <View class='selector-border selector-border-bottom margin-10'><Text className='selector-title'>客户来源</Text>
             <View className='selector-content'>
               <Picker mode='selector' range={this.state.cus_sourceSelector} onChange={this.onSelector.bind(this,'cus_sourceSelectorChecked')}>
                 <View className='picker'>
-                  当前选择：{this.state.cus_sourceSelector[this.state.cus_sourceSelectorChecked]}
+                 {this.state.cus_sourceSelectorChecked?this.state.cus_sourceSelector[this.state.cus_sourceSelectorChecked]:<Text className='picker-placeholder'>{this.state.placeholder}</Text>}
                 </View>
               </Picker>
             </View>
