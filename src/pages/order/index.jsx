@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text } from "@tarojs/components";
 import { AtButton, AtList, AtListItem } from "taro-ui";
+import {order_detail} from "../../config/base"
 import api from "../../service/api"
 import NavBar from 'taro-navigationbar';
 import OrderCard from "../../components/orderCard";
@@ -12,11 +13,24 @@ export default class My extends Component {
     this.state = {
       taskRequirementsTitle:['性别','年龄','学历','专业技能'],
       // 获取到数据之后解构成一个字符串数组
-      taskRequirementsContent:['男','24-40','不限','财会分析能力']
+      taskRequirementsContent:['男','24-40','不限','财会分析能力'],
+      // 工作时间
+      startTime:'',
+      endTime:'',
+      // 订单名称
+      missionName:'',
+      // 订单报价
+      missionPay:'',
+      // 任务内容
+      missionContent:'',
+      // 任务技能
+      missionSkill:'',
+      missionCert:'',
     };
   }
   componentWillMount() {
-    console.log('这个是什么',this.$router.params)
+    // console.log('这个是什么',this.$router.params)
+    this.getOrderDetails(this.$router.params.id)
    }
 
   componentDidMount() {
@@ -38,6 +52,28 @@ export default class My extends Component {
     navigationBarTitleText: "gxvashgvxhahg",
     navigationStyle: "custom"
   };
+  //通过订单编号获取到细节
+  getOrderDetails(id){
+    api.get(order_detail,{orderId:id}).then(res=>{
+      console.log("订单细节",res.data.detail)
+      let detail = res.data.detail
+      this.setState({
+      // 工作时间
+      startTime:detail.start_time,
+      endTime:detail.end_time,
+      workingTime:detail.start_time+detail.end_time,
+      // 订单名称
+      missionName:detail.mission_name,
+      // 订单报价
+      missionPay:detail.m_pay+'/单',
+      // 任务内容
+      missionContent:detail.mission_content,
+      // 任务技能
+      missionSkill:detail.req_skill,
+      missionCert:detail.req_cert,
+      })
+    })
+  }
   render() {
     return (
       <View>
@@ -45,17 +81,17 @@ export default class My extends Component {
         <AtList>
           {/* order-title */}
           <AtListItem
-            title='渠道拓展'
+            title={this.state.missionName}
             thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
           ></AtListItem>
           <AtListItem
             title='报价'
-            extraText='2000元/单'
+            extraText={this.state.missionPay}
             thumb='http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png'
           ></AtListItem>
           <AtListItem
             title='工作时间'
-            note='2020.01.01--2020.04.30 9:00'
+            note={this.state.workingTime}
             thumb='http://img10.360buyimg.com/jdphoto/s72x72_jfs/t5872/209/5240187906/2872/8fa98cd/595c3b2aN4155b931.png'
           ></AtListItem>
           <AtListItem
@@ -67,7 +103,7 @@ export default class My extends Component {
         <OrderCard
           title='任务描述'
           isTaskDesc={true}
-          desc='有良好的信息搜集管理分析能力'
+          desc={this.state.missionContent}
           thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
         >
         </OrderCard>

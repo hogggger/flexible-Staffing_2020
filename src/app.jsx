@@ -16,7 +16,8 @@ class App extends Component {
 
   componentDidMount () {
     util.getCapsulePosition()
-    console.log('login运行')
+    // console.log('login运行')
+    // 登录之时就会将员工信息放入缓存
     api.login()
     // this.getPersonInfo()
   }
@@ -36,11 +37,10 @@ class App extends Component {
   config = {
     pages: [
       // 组件不可在此注册
+      'pages/index/index',
       'pages/identifyCard/index',
       'pages/personInfo/index',
       'pages/sign/index',
-      'pages/allTask/index',
-      'pages/index/index',
       'pages/phoneNumLogin/index',
       'pages/login/index',
       'pages/contract/index',

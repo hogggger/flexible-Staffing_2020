@@ -1,8 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Swiper, SwiperItem } from "@tarojs/components";
-import { AtSearchBar } from "taro-ui";
+import { AtSearchBar,AtNoticebar } from "taro-ui";
+import {order_pub} from "../../config/base"
 import './index.scss'
 import Skeleton from '../../components/skeleton'
+import api from "../../service/api";
 
 
 
@@ -15,7 +17,9 @@ export default class Home extends Component {
       orderID:123112312
     }
   }
-  componentWillMount() { }
+  componentWillMount() { 
+    this.getPubOrder()
+  }
 
   componentDidMount() { }
 
@@ -24,6 +28,12 @@ export default class Home extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
+  // 获取推荐订单
+  getPubOrder(){
+    api.get(order_pub,{page:1,limit:10}).then(res=>{
+      console.log('获取推荐订单',res)
+    })
+  }
   // 侦听skeleton的点击事件并接收一个订单号跳转数据
   navigatete(e){
     const orderID = this.state.orderID
@@ -37,15 +47,16 @@ export default class Home extends Component {
      } 
     })
   }
-
   render() {
     return (
       <View>
+        <AtNoticebar close icon='volume-plus'>请绑定手机号码</AtNoticebar>
+        <AtNoticebar close icon='volume-plus'>请完善个人信息</AtNoticebar>
         {/* 搜索 */}
-        <AtSearchBar
+        {/* <AtSearchBar
           className='margin-10'
           value={this.state.searchValue}
-        ></AtSearchBar>
+        ></AtSearchBar> */}
         {/* 搜索 */}
         {/* 图片轮播 */}
         <Swiper

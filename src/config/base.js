@@ -26,8 +26,10 @@ export const pub_dict = "/app/pub/dict"
 // oder任务订单
 // pub获取推荐订单
 // list获取登录人员订单
+// detail获取订单细节
 export const order_pub="/app/order/pub"
 export const order_list="/app/order/list"
+export const order_detail="/app/order/detail"
 // 实名注册
 export const labor_identify ="/app/labor/identify/idCardVerify"
 //电子合同

@@ -63,6 +63,11 @@ export default class Skeleton extends Component {
   // 点击卡片跳转到详情页
   jumpToDetail(){
     console.log('跳转到',this.props.orderID,'状态',this.props.orderstatus)
+    let id = this.props.orderID
+    let status = this.props.orderstatus
+    Taro.navigateTo({
+      url:`../../pages/order/index?id=${id}&status=${status}`
+    })
   }
   render() {
     return (

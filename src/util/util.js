@@ -36,10 +36,19 @@ const hasMobile = () =>{
     let mobile = laborInfo.mobile
     return isTelPhone(mobile)
 }
+// 判断缓存中有没有身份证
+const hasID = () => {
+    let laborInfo = Taro.getStorageSync('labor')
+    let paper_number = laborInfo.paper_number
+    if (paper_number)return true
+    else{return false}
+    
+}
 module.exports = {
     getCapsulePosition,
     isTelPhone,
     logError,
     setLaborIntoStorage,
-    hasMobile
+    hasMobile,
+    hasID
 }
