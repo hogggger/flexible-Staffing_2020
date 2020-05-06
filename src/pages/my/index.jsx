@@ -93,7 +93,7 @@ export default class My extends Component {
               extraText='去认证'
               arrow='right'
               iconInfo={{ size: 25, color: "#D87B7B", value: "money" }}
-            />
+            /> 
           </AtList>
                       {/* <AtListItem
               title='银行卡'
