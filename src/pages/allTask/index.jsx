@@ -3,10 +3,11 @@ import { View, Text, Input, Button, Image } from "@tarojs/components";
 import { AtButton, AtTabs, AtTabsPane } from "taro-ui";
 // import { AreaPicker } from "../../components/areaPicker/index"
 import NavBar from 'taro-navigationbar'
-import {NoData } from "../../components/noData/index"
-import {Loading } from "../../components/loading/index"
+import { NoData } from "../../components/noData/index"
+import { Loading } from "../../components/loading/index"
 import api from "../../service/api"
-import {order_list} from "../../config/base"
+import { hasMobile, hasID } from "../../util/util"
+import { order_list, agreement_confirm } from "../../config/base"
 import Skeleton from '../../components/skeleton'
 
 const util = require("../../util/util")
@@ -21,12 +22,19 @@ export default class AllTask extends Component {
             // 订单数组
             orderArray: [],
             // 展示无数据组件,
-            showNoData:false,
+            showNoData: false,
             // 显示加载状态
-            showLoading:true
+            showLoading: true,
+            // 是否有手机号码
+            hasPhoneNumber: false,
+            // 是否有身份证
+            hasIdNumber: false,
+
         };
     }
     componentWillMount() {
+        // 检验是否有手机和身份证
+        this.checkPhoneAndId()
         // 获取订单
         this.getOrderInfo('confirm')
     }
@@ -37,7 +45,10 @@ export default class AllTask extends Component {
 
     componentWillUnmount() { }
 
-    componentDidShow() { }
+    componentDidShow() {
+        this.getOrderInfo('confirm')
+        // console.log("页面重新出现")
+    }
 
     componentDidHide() { }
 
@@ -48,42 +59,79 @@ export default class AllTask extends Component {
     handleClick(value) {
         this.setState({
             current: value,
-            showLoading:true
+            showLoading: true
         })
         // console.log('点击的table',value)
         // 点击的值不同,请求的name不同
-        let statusName=['confirm','pended','active','finish']
+        let statusName = ['confirm', 'pended', 'active', 'finish']
         this.getOrderInfo(statusName[value])
     }
     // 指派订单
     getOrderInfo(statusName) {
-        api.get(order_list, { page: 1, limit: 10, status:statusName}).then(res => {
+        api.get(order_list, { page: 1, limit: 10, status: statusName }).then(res => {
             console.log('订单', res.data.page.list)
             let length = res.data.page.list.length
             let list = res.data.page.list
-            if (length != 0){
+            if (length != 0) {
                 // 如果获取到的数组长度不为零,有数据,不展示[noData]组件
                 this.setState({
                     orderArray: list,
-                    showNoData:false,
-                    showLoading:false
+                    showNoData: false,
+                    showLoading: false
                 })
-            }else{
+            } else {
                 this.setState({
-                    showNoData:true,
-                    showLoading:false
+                    showNoData: true,
+                    showLoading: false
                 })
             }
         })
     }
-    
+
     // HandleToggleShow
-    toggleAddressPicker(e) {
-        console.log('e', e)
-    }
+    // toggleAddressPicker(e) {
+    //     console.log('e', e)
+    // }
     // onSkeletonNavigate 待确认
-    confirmTheTask(){
-        console.log('接任务')
+    confirmTheTask(arg1, arg2, e) {
+        console.log('接任务', arg1, arg2, e)
+        let orderId = arg1
+        let hasSign = arg2
+        let hasPhone = this.state.hasPhoneNumber
+        let hasId = this.state.hasIdNumber
+        if (!hasPhone) {
+            Taro.navigateTo({
+                url: '../../pages/phoneNumLogin/index'
+            })
+        } else if (!hasId) {
+            Taro.navigateTo({
+                url: '../../pages/identifyCard/index'
+            })
+        } else if (!hasSign) {
+            Taro.navigateTo({
+                url: `../../pages/contract/index?orderId=${orderId}`
+            })
+        } else {
+            // 确定当前订单,接收参数暂时不确定
+            console.log('确定订单')
+            api.get(agreement_confirm, { order_id: orderId }).then(res => {
+                console.log(res)
+                // 如果订单确认成功应该刷新一下,重新调用this.getOrderInfo('confirm')
+            })
+        }
+    }
+    // 查看详情
+    pendedTheTask(){}
+    activeTheTask(){}
+    finishTheTask(){}
+    // 获取缓存中的身份证信息和手机号码,判定点击权限
+    checkPhoneAndId() {
+        let hasPhoneNumber = hasMobile()
+        let hasIdNumber = hasID()
+        this.setState({
+            hasPhoneNumber: hasPhoneNumber,
+            hasIdNumber: hasIdNumber
+        })
     }
     render() {
         let showNoData = this.state.showNoData
@@ -91,59 +139,63 @@ export default class AllTask extends Component {
         let showLoading = this.state.showLoading
         const tabList = [{ title: '待确认' }, { title: '待开始' }, { title: '进行中' }, { title: '已完成' }]
         return (
-            <View>
+            <View className=' tab-bg'>
                 {/* <NavBar title='我的任务' back></NavBar> */}
                 <AtTabs current={this.state.current} tabList={tabList} onClick={this.handleClick.bind(this)}>
 
-                    <AtTabsPane className='padding-20' current={this.state.current}  >
+                    <AtTabsPane className='padding-20' current={this.state.current} >
                         {/*加载框 */}
                         <Loading showLoading={showLoading} />
                         {showNoData ?
                             <NoData></NoData>
-                           :orderArray.map((order) => {
+                            : orderArray.map((order) => {
                                 return <Skeleton buttonName='确认任务' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
                                     starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
-                                    orderTitle={order.order_name} onSkeletonNavigate={this.confirmTheTask()} orderstatus='confirm'
+                                    orderTitle={order.order_name} onSkeletonNavigate={this.confirmTheTask.bind(this)}
+                                    orderstatus='confirm' hasSign={order.sign_status}
                                 ></Skeleton>
+                                // 此处应该将是否有签署合同的状态量传进去
                             })
                         }
 
                     </AtTabsPane>
 
                     <AtTabsPane current={this.state.current} index={1}>
-                    <Loading showLoading={showLoading} />
-                    { showNoData ?
+                        <Loading showLoading={showLoading} />
+                        {showNoData ?
                             <NoData></NoData>
-                           : orderArray.map((order) => {
-                                return <Skeleton buttonName='确认任务' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
+                            : orderArray.map((order) => {
+                                return <Skeleton buttonName='查看详情' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
                                     starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
-                                    orderTitle={order.order_name}
+                                    orderTitle={order.order_name} onSkeletonNavigate={this.pendedTheTask.bind(this)}
+                                    orderstatus='pended' hasSign={order.sign_status}
                                 ></Skeleton>
                             })
                         }
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={2}>
-                    <Loading showLoading={showLoading} />
-                    {showNoData ?
+                        <Loading showLoading={showLoading} />
+                        {showNoData ?
                             <NoData></NoData>
-                           :orderArray.map((order) => {
-                                return <Skeleton buttonName='确认任务' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
+                            : orderArray.map((order) => {
+                                return <Skeleton buttonName='查看详情' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
                                     starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
-                                    orderTitle={order.order_name}
+                                    orderTitle={order.order_name} onSkeletonNavigate={this.activeTheTask.bind(this)}
+                                    orderstatus='active' hasSign={order.sign_status}
                                 ></Skeleton>
-                                // 测试地址选择器
 
                             })
                         }
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={3}>
-                    <Loading showLoading={showLoading} />
-                    {showNoData ?
+                        <Loading showLoading={showLoading} />
+                        {showNoData ?
                             <NoData></NoData>
-                           :orderArray.map((order) => {
-                                return <Skeleton buttonName='确认任务' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
+                            : orderArray.map((order) => {
+                                return <Skeleton buttonName='查看详情' key={order.order_id} orderID={order.order_id} salary={order.m_plan}
                                     starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
-                                    orderTitle={order.order_name}
+                                    orderTitle={order.order_name} onSkeletonNavigate={this.finishTheTask.bind(this)}
+                                    orderstatus='finish' hasSign={order.sign_status}
                                 ></Skeleton>
 
                             })

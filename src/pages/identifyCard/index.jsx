@@ -60,7 +60,7 @@ export default class IdentifyCard extends Component {
             Taro.navigateTo({
                 url:'../personInfo/index'
             })
-            console.log('跳转')
+            // console.log('跳转')
         }
     } 
 

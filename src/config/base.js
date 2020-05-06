@@ -2,10 +2,10 @@
 // ******************
 // 请求接口的基本配置
 // base http请求接口
-// 
+// base = "http://114.116.174.5:8080"
 // 
 // *******************
-export const base = "http://114.116.174.5:8080"
+export const base = "http://192.168.20.105:99"
 export const register_sms = "/app/register/sms"
 export const register = "/app/register"
 // login微信小程序登录
@@ -34,3 +34,8 @@ export const order_detail="/app/order/detail"
 export const labor_identify ="/app/labor/identify/idCardVerify"
 //电子合同
 export const labor_contract ="/app/labor/contract/list"
+// 用工平台协议
+// agreement_confirm 确认协议
+// agreement 获取当前协议
+export const agreement_confirm="/app/labor/agreement/confirm"
+export const agreement = "/app/labor/agreement"

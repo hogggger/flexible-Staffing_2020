@@ -57,14 +57,14 @@ export default class My extends Component {
           {/* <View className='font-size-14 color-lightgrey margin-top-10'>181****1211</View> */}
         </View>
         {/* 个人数值 */}
-        <View className='at-row at-row--wrap margin-tb-20'>
+        {/* <View className='at-row at-row--wrap margin-tb-20'>
           <View className='at-col at-col-4 text-center'>余额(元)</View>
           <View className='at-col at-col-4 text-center'>积分</View>
           <View className='at-col at-col-4 text-center'>红包(个)</View>
           <View className='at-col at-col-4 text-center color-orange'>100</View>
           <View className='at-col at-col-4 text-center color-orange'>2000</View>
           <View className='at-col at-col-4 text-center color-orange'>0</View>
-        </View>
+        </View> */}
         {/* 列表 */}
         <View>
           <AtList>
@@ -74,14 +74,8 @@ export default class My extends Component {
               arrow='right'
               iconInfo={{ size: 25, color: "#78A4FA", value: "calendar" }}
             />
-            {/* <AtListItem
-              title='银行卡'
-              extraText='详细信息'
-              arrow='right'
-              iconInfo={{ size: 25, color: "#82C272", value: "folder" }}
-            /> */}
             <AtListItem
-              title='我的任务'
+              title='我的合同'
               extraText='详细信息'
               arrow='right'
               iconInfo={{ size: 25, color: "#FF4949", value: "bookmark" }}
@@ -101,8 +95,14 @@ export default class My extends Component {
               iconInfo={{ size: 25, color: "#D87B7B", value: "money" }}
             />
           </AtList>
+                      {/* <AtListItem
+              title='银行卡'
+              extraText='详细信息'
+              arrow='right'
+              iconInfo={{ size: 25, color: "#82C272", value: "folder" }}
+            /> */}
         </View>
-        <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag'>退出登录</AtButton></View>
+        <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag'>重新登录</AtButton></View>
         {/* <AtButton openType='getUserInfo' onGetUserInfo={this.getUserInfo}>huo</AtButton> */}
       </View>
     );

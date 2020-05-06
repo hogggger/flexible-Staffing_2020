@@ -35,16 +35,16 @@ export default class OrderCard extends Component {
                     <AtListItem title={this.props.title} thumb={this.props.thumb}></AtListItem>
                 </AtList>
                 {/* 是否为描述 */}
-                {this.props.isTaskDesc && <View className='at-article__p minheight-150'>{this.props.desc}</View>}
+                {this.props.isTaskDesc && <View className='at-article__p minheight-150 padding-20'>{this.props.desc}</View>}
                 {/* 是否为要求 */}
                 {this.props.isTaskReq &&
                     <View className='at-row minheight-150'>
-                        <View className='at-col at-col-1 at-col--auto '>
+                        <View className='at-col at-col-1 at-col--auto padding-20'>
                             {taskReqTitle.map((item) => {
                                 return <View key={item}>{item}:</View>
                             })}
                         </View>
-                        <View className='at-col margin-left-20'>
+                        <View className='at-col margin-left-20 padding-20'>
                             {taskReqContent.map((item) => {
                                 return <View key={item}>{item}</View>
                             })}

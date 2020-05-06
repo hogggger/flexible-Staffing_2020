@@ -28,20 +28,15 @@ export default class Index extends Component {
   tabbarClick(value) {
     // console.log('点击题跳转到我的', value)
     // 如果value为1,跳转到我的之前先判断缓存中mobile有没有值
+    // tab点击只判定有没有手机号码,不校验是否存在身份证
     let has = hasMobile();
-    let hasId = hasID();
+    // let hasId = hasID();
     if (!has) {
       // 没有手机号跳转到注册
       Taro.navigateTo({
         url: '../phoneNumLogin/index'
       })
-    } else if(!hasId){
-      // 没有身份证号码跳转
-      Taro.navigateTo({
-        url:'../identifyCard/index'
-      })
-    }
-      else{
+    } else{
       this.setState({
         tabbarCurrent: value,
       })

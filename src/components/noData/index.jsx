@@ -23,7 +23,7 @@ export default class NoData extends Component {
     render() {
         return (
             <View className='nodata_style'>
-                <View className='nodata_pic'></View>
+                {/* <View className='nodata_pic'></View> */}
                 <Text className='nodata_title'>暂无任务信息</Text>
             </View>
 

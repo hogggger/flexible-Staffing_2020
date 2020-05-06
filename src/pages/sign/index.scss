@@ -29,10 +29,15 @@ Button {
 .confirm {
   color: #fff;
   background: $cF8;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
 }
 .cancel {
   color: $cF8;
   background: #fff;
+  margin-left: auto;
+  margin-right: auto;
 }
 .word-break {
   word-break: break-all;

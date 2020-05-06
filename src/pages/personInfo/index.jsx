@@ -2,6 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Picker, Text, Label, Input } from "@tarojs/components";
 import { AtForm, AtInput, AtButton } from "taro-ui";
 import {pub_dict ,labor_edit,labor_info,} from "../../config/base"
+import {setLaborIntoStorage} from "../../util/util"
 import NavBar from 'taro-navigationbar'
 import api from "../../service/api"
 // 引入地区选择器组件
@@ -185,6 +186,12 @@ export default class PersonInfo extends Component {
       console.log('提交之后的返回值', res)
       api.get(labor_info).then(value => {
         console.log("刷新的值", value)
+        console.log("刷新的值", value)
+        let laborInfo = value.data.labor
+        setLaborIntoStorage(laborInfo)
+        Taro.navigateTo({
+          url:'../index/index'
+        })
       })
     })
   }

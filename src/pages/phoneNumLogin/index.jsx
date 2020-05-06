@@ -2,7 +2,10 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Input, Button } from "@tarojs/components";
 import { AtButton, AtInput, AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui";
 import NavBar from 'taro-navigationbar'
+import {register,register_sms,labor_info} from "../../config/base"
+import {setLaborIntoStorage} from "../../util/util"
 import api from '../../service/api'
+
 const util = require("../../util/util")
 import "./index.scss";
 
@@ -53,13 +56,19 @@ export default class PersonNumLogin extends Component {
         let code = this.state.verifyCode
         let phone = this.state.phoneNumber
         if(code && phone){
-            api.post('http://192.168.20.105:99/app/register',{mobile:phone,verifyCode:code},'application/x-www-form-urlencoded').then(res=>{
+            api.post(register,{mobile:phone,verifyCode:code},'application/x-www-form-urlencoded').then(res=>{
                 console.log('注册结果是',res)
                 // res.code = 0 msg:“注册成功”
                 if(res.data.code == 0){
                     Taro.navigateTo({
                         url:'../index/index'
                     })
+                    // 将返回的labor存入到缓存中
+                    api.get(labor_info).then(value => {
+                        console.log("绑定成功之后", value)
+                        let laborInfo = value.data.labor
+                        setLaborIntoStorage(laborInfo)
+                      })
                 }else{
                     //显示弹窗,内容为返回的参数,重置验证码
                     this.setState({
@@ -75,7 +84,7 @@ export default class PersonNumLogin extends Component {
         // 获取短信验证码
     getCodeApi(phoneNumber){
         console.log('发送手机号获取验证码')
-        api.post('http://192.168.20.105:99/app/register/sms',{mobile:phoneNumber},'application/x-www-form-urlencoded')
+        api.post(register_sms,{mobile:phoneNumber},'application/x-www-form-urlencoded')
     }
     // 手机账号登录状态
     // phoneNumberLogin(){

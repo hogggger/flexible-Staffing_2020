@@ -11,7 +11,7 @@ let canvash = 0;
 export default class Sign extends Component<any, any> {
 
   config: Config = {
-    navigationBarTitleText: '签字版'
+    navigationBarTitleText: '签名板'
   }
   state = {
     isPaint: false,
@@ -76,14 +76,44 @@ export default class Sign extends Component<any, any> {
         this.setState({
           tempFilePath: res.tempFilePath
         })
-        // this.uploadToAliyun(res.tempFilePath)
+        // 上传图片,成功之后返回到订单页面,并且页面会重新刷新
+        // this.uploadSign(res.tempFilePath)
+        Taro.navigateBack({
+          delta:3,
+      //     success(res){
+      //       let page = Taro.getCurrentPages().pop();
+      //       console.log('page',page)
+      //       if(page == undefined || page == null){
+      //             return
+      //       }
+      //       page.onLoad();
+      // }
+        })
       },
       fail(err) {
         console.log(err)
       }
     })
   }
-
+  // 上传图片
+  uploadSign(imgUrl){
+    Taro.uploadFile({
+      // url: base+labor_identify,
+      header: {
+          'content-type': 'multipart/form-data',
+      },
+      name: 'sign',
+      filePath: imgUrl,
+      formData: {
+        // 填入参数
+      },
+      success: value => {
+        console.log('value',value)
+        // 成功则跳回原来的页面
+        // Taro.navigateBack()
+      }
+  })
+  }
   // 获取 canvas 的尺寸（宽高）
   getCanvasSize () {
     const query = Taro.createSelectorQuery()
