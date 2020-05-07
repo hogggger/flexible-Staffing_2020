@@ -1,14 +1,26 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, OpenData } from "@tarojs/components";
 import { AtAvatar, AtList, AtListItem, AtButton } from "taro-ui";
+import {hasID} from "../../util/util"
 import "./index.scss";
+import api from "../../service/api"
 
 export default class My extends Component {
   constructor() {
     super(...arguments);
-    this.state = {};
+    this.state = {
+      // 身份证是否已经注册
+      hasId:false,
+      // 我的身份证
+      idText:'去认证',
+      // 箭头方向
+      idArrow:'right'
+
+    };
   }
-  componentWillMount() { }
+  componentWillMount() {
+    this.checkedId()
+   }
 
   componentDidMount() { }
 
@@ -17,27 +29,64 @@ export default class My extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-  // 获取个人信息
-  getUserInfo(res){
-    console.log(res)
+  // 获取身份证信息
+  checkedId(){
+    let hasId = hasID()
+    let idText  = ''
+    let idArrow = 'right'
+    if(hasId){
+       idText = '已认证',
+       idArrow =''
+    }else{
+       idText='去认证',
+       idArrow = 'right'
+    }
+    console.log('是否有身份证号',hasId)
+    this.setState({
+      hasId:hasId,
+      idText:idText,
+      idArrow:idArrow
+    })
   }
   // 跳转到具体页面
   navigateTo(name,e){
-    console.log('eeeeee',name)
+    // console.log('eeeeee',name)
     let url = null
     switch(name){
       case 'task':{
-         url= '../../pages/allTask/index';
+         url= '../../pages/contractList/index';
+        break;
+      }
+      case 'id':{
+        if(this.state.hasId){
+          url='';
+        }else{
+          url='../../pages/identifyCard/index';
+        }
+        break;
+      }
+      case 'personInfo':{
+        // url='../../pages/identifyCard/index';
+        url='../../pages/showPersonInfo/index';
         break;
       }
       default:
          url = null;
+         break;
     }
     if(url){
       Taro.navigateTo({
         url:url,
       })
     }
+  }
+  // 重新登录按钮
+  reLogin(){
+    // 重新登录
+    api.login()
+    Taro.navigateTo({
+      url:'../../pages/index/index'
+    })
   }
 
   render() {
@@ -52,8 +101,8 @@ export default class My extends Component {
             circle
           ></AtAvatar> */}
           {/* 调用开放 */}
-          <View className='width-height-400  header-icon circle'> <OpenData  type='userAvatarUrl'/></View>
-          <View className='font-size-18 color-lightgrey'><OpenData  type='userNickName'/></View>
+          <View className='width-height-400  header-icon circle'> <OpenData  type='userAvatarUrl' /></View>
+          <View className='font-size-18 color-lightgrey'><OpenData  type='userNickName' /></View>
           {/* <View className='font-size-14 color-lightgrey margin-top-10'>181****1211</View> */}
         </View>
         {/* 个人数值 */}
@@ -73,6 +122,7 @@ export default class My extends Component {
               extraText='详细信息'
               arrow='right'
               iconInfo={{ size: 25, color: "#78A4FA", value: "calendar" }}
+              onClick={this.navigateTo.bind(this,'personInfo')}
             />
             <AtListItem
               title='我的合同'
@@ -90,9 +140,10 @@ export default class My extends Component {
             {/* <View data-way='123'  onClick={this.navigateTo.bind(this)}>123</View> */}
             <AtListItem
               title='我的身份证'
-              extraText='去认证'
-              arrow='right'
+              extraText={this.state.idText}
+              arrow={this.state.idArrow}
               iconInfo={{ size: 25, color: "#D87B7B", value: "money" }}
+              onClick={this.navigateTo.bind(this,'id')}
             /> 
           </AtList>
                       {/* <AtListItem
@@ -102,7 +153,7 @@ export default class My extends Component {
               iconInfo={{ size: 25, color: "#82C272", value: "folder" }}
             /> */}
         </View>
-        <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag'>重新登录</AtButton></View>
+        <View className=' width-200 margin-top-50'><AtButton className='blue-solid-tag' onClick={this.reLogin.bind(this)}>重新登录</AtButton></View>
         {/* <AtButton openType='getUserInfo' onGetUserInfo={this.getUserInfo}>huo</AtButton> */}
       </View>
     );

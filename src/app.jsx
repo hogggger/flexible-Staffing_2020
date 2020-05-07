@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import 'taro-ui/dist/style/index.scss' 
 import Index from './pages/index'
 const util = require('./util/util')
+
 import api from "./service/api"
 
 import './app.scss'
@@ -31,7 +32,7 @@ class App extends Component {
 // getPersonInfo(){
 //   api.get('http://192.168.20.105:99/app/labor/info',{},'application/x-www-form-urlencoded').then(res=>{
 //     console.log('获取到个人信息',res)
-//   })
+//   }
 // }
 
   config = {
@@ -39,9 +40,11 @@ class App extends Component {
       // 组件不可在此注册
       'pages/index/index',
       'pages/identifyCard/index',
+      'pages/phoneNumLogin/index',
+      'pages/showPersonInfo/index',
+      'pages/contractList/index',
       'pages/personInfo/index',
       'pages/sign/index',
-      'pages/phoneNumLogin/index',
       'pages/login/index',
       'pages/contract/index',
       'pages/order/index'

@@ -4,7 +4,7 @@
     margin-right: auto;
     margin-left: auto;
     margin-top: 30px;
-    height: 1330px;
+    height: 1100px;
 }
 // .hidden{
 //     display: none;
@@ -14,4 +14,11 @@
 }
 .hidden{
     overflow: hidden;
+}
+.submit_button{
+    position: fixed;
+    bottom: 40px;
+    right: 0;
+    left: 0;
+    width: 700px;
 }

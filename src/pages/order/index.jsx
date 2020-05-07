@@ -27,6 +27,7 @@ export default class My extends Component {
       // 任务技能
       missionSkill:'',
       missionCert:'',
+      // icon地址
     };
   }
   componentWillMount() {
@@ -34,15 +35,16 @@ export default class My extends Component {
     // 来调整不同的按钮
     console.log('这个是什么',this.$router.params)
     this.getOrderDetails(this.$router.params.id)
+
    }
 
   componentDidMount() {
-    console.log('emit',this.$scope.getOpenerEventChannel()) 
-    const eventChannel =this.$scope.getOpenerEventChannel()
+    // console.log('emit',this.$scope.getOpenerEventChannel()) 
+    // const eventChannel =this.$scope.getOpenerEventChannel()
     // console.log('emit',this.$mp.page.getOpenerEventChannel())
-    eventChannel.on('acceptDataFromOpenedPage', function(data) {
-      console.log('data',data)
-    })
+    // eventChannel.on('acceptDataFromOpenedPage', function(data) {
+    //   console.log('data',data)
+    // })
    }
 
   componentWillUnmount() { }

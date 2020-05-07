@@ -1,8 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Swiper, SwiperItem } from "@tarojs/components";
-import { AtSearchBar,AtNoticebar } from "taro-ui";
-import {order_pub} from "../../config/base"
-import {hasMobile,hasID} from "../../util/util" 
+import { AtSearchBar, AtNoticebar ,AtToast} from "taro-ui";
+import { order_pub, order_list } from "../../config/base"
+import { hasMobile, hasID } from "../../util/util"
 import './index.scss'
 import Skeleton from '../../components/skeleton'
 import api from "../../service/api";
@@ -11,17 +11,22 @@ import api from "../../service/api";
 
 
 export default class Home extends Component {
-  constructor(){
-    super(... arguments)
+  constructor() {
+    super(...arguments)
     this.state = {
       // orderID是一个临时数据
-      orderID:123112312,
+      orderID: 123112312,
       // 是否要显示手机/身份证未注册的通知
-      showPhoneNotice:false,
-      showIdNotice:false
+      showPhoneNotice: false,
+      showIdNotice: false,
+      // 推荐订单的数组
+      orderArray: [],
+      // 接单显示
+      showOrderNotice:false,
+      noticeMessage:''
     }
   }
-  componentWillMount() { 
+  componentWillMount() {
     this.getPubOrder()
     this.checkPhoneAndId()
   }
@@ -34,15 +39,23 @@ export default class Home extends Component {
 
   componentDidHide() { }
   // 获取推荐订单
-  getPubOrder(){
-    api.get(order_pub,{page:1,limit:10}).then(res=>{
-      console.log('获取推荐订单',res)
-    })
+  getPubOrder() {
+    // order_list order_pub
+    api.get(order_list, { page: 1, limit: 10, status: 'confirm' })
+      // api.get(order_pub,{page:1,limit:10})
+      .then(res => {
+        console.log('获取推荐订单', res.data.page.list)
+        // let length = res.data.page.list.length
+        let list = res.data.page.list
+        this.setState({
+          orderArray: list
+        })
+      })
   }
   // 侦听skeleton的点击事件并接收一个订单号跳转数据
-  navigatete(e){
+  navigatete(e) {
     const orderID = this.state.orderID
-    console.log('打印数据',e)
+    console.log('打印数据', e)
     // Taro.navigateTo({
     //  url:'../../pages/order/index?orderID=' + orderID,
 
@@ -53,27 +66,50 @@ export default class Home extends Component {
     // })
   }
   // jumpToDetails
-  jumpToDetails(arg1,arg2){
-    console.log('跳转到详情页',arg1,arg2)
+  jumpToDetails(arg1, arg2) {
+    console.log('跳转到详情页', arg1, arg2)
 
   }
   // 手机是否注册,身份证是否注册
-  checkPhoneAndId(){
+  checkPhoneAndId() {
     let hasPhoneNumber = hasMobile()
     let hasIdNumber = hasID()
-    console.log('是否完善个人信息',hasIdNumber)
+    console.log('是否完善个人信息', hasIdNumber)
     this.setState({
-      showPhoneNotice:hasPhoneNumber,
-      showIdNotice:hasIdNumber
+      showPhoneNotice: hasPhoneNumber,
+      showIdNotice: hasIdNumber
     })
+  }
+  // 接取任务
+  confirmTheTask(arg1,arg2,e){
+    console.log('接任务', arg1, arg2, e)
+    let hasPhone = this.state.showPhoneNotice
+    let hasId = this.state.showIdNotice
+    if (!hasPhone) {
+      Taro.navigateTo({
+          url: '../../pages/phoneNumLogin/index'
+      })
+  } else if (!hasId) {
+      Taro.navigateTo({
+          url: '../../pages/identifyCard/index'
+      })
+  }else{
+    // 首页展示单,不支持接单,显示不能承接该订单
+    this.setState({
+      showOrderNotice:true,
+      noticeMessage:'不能承接该订单'
+    })
+
+  }
   }
   render() {
     let showPhoneNotice = this.state.showPhoneNotice
     let showIdNotice = this.state.showIdNotice
+    let orderArray = this.state.orderArray
     return (
       <View>
-        {!showPhoneNotice?<AtNoticebar close icon='volume-plus'>请绑定手机号码</AtNoticebar>:''}
-        {!showIdNotice?<AtNoticebar close icon='volume-plus'>请完善个人信息</AtNoticebar>:''}
+        {!showPhoneNotice ? <AtNoticebar close icon='volume-plus'>请绑定手机号码</AtNoticebar> : ''}
+        {!showIdNotice ? <AtNoticebar close icon='volume-plus'>请完善个人信息</AtNoticebar> : ''}
         {/* 搜索 */}
         {/* <AtSearchBar
           className='margin-10'
@@ -102,19 +138,31 @@ export default class Home extends Component {
         </Swiper>
         {/* 订单卡片 */}
         <View className='bg-grey padding-bottom-20'>
+          <View>
+            {
+              orderArray.map((order) => {
+                return <View key={order.order_id}  className='padding-lrt-20'>
+                  <Skeleton buttonName='申请任务'  orderID={order.order_id} salary={order.m_plan}
+                    starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
+                    orderTitle={order.order_name} onSkeletonNavigate={this.confirmTheTask.bind(this)}
+                    orderstatus='normal' hasSign={order.sign_status}
+                ></Skeleton>
+                </View>
+            })
+            }
+          </View>
           <View className='padding-lrt-20'>
-            <Skeleton buttonName='查看详情' tagName='市场营销'  onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}
+            <Skeleton buttonName='查看详情' tagName='市场营销' onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}
             ></Skeleton>
           </View>
           <View className='padding-lrt-20'>
             <Skeleton buttonName='查看详情' tagName='市场营销'></Skeleton>
           </View>
-          <View className='padding-lrt-20'>
-            <Skeleton></Skeleton>
-          </View>
         </View>
         {/* 分隔 */}
-        </View>
+        {/* 轻提示 */}
+        <AtToast isOpened={this.state.showOrderNotice} text={this.state.noticeMessage}></AtToast>
+      </View>
     );
   }
 }
