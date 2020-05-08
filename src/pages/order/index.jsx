@@ -28,6 +28,10 @@ export default class My extends Component {
       missionSkill:'',
       missionCert:'',
       // icon地址
+      // 底部按钮显示内容
+     buttonText:'申请任务',
+     buttonShow:true,
+     status:''
     };
   }
   componentWillMount() {
@@ -35,6 +39,7 @@ export default class My extends Component {
     // 来调整不同的按钮
     console.log('这个是什么',this.$router.params)
     this.getOrderDetails(this.$router.params.id)
+    this.changePageByStatus(this.$router.params.status)
 
    }
 
@@ -82,6 +87,50 @@ export default class My extends Component {
       })
     })
   }
+  // 接收参数normal,confirm,pended,active,finish,特性化订单详情页面
+  changePageByStatus(status){
+    let statusList=['normal','confirm', 'pended', 'active', 'finish']
+    let buttonText=''
+    let buttonShow =false
+    switch(status){
+      case statusList[0]:{
+        buttonText='申请任务';
+        buttonShow=true;
+        break;
+      }
+      case statusList[1]:{
+        buttonText='确认任务';
+        buttonShow=true;
+        break;
+      }
+      case statusList[2]:{
+        buttonText='任务开始';
+        buttonShow=false;
+        break;
+      }
+      case statusList[3]:{
+        buttonText='上传凭证';
+        buttonShow=true;
+        break;
+      }
+      case statusList[4]:{
+        buttonText='任务完成';
+        buttonShow=true;
+        break;
+      }
+    }
+    this.setState({
+      status:status,
+      buttonText:buttonText,
+      buttonShow:buttonShow
+    })
+  }
+  // 底部button的点击事件
+  clickButton(){
+    let status = this.state.status
+    console.log('从哪里点击进来的',status)
+  }
+
   render() {
     return (
       <View>
@@ -124,7 +173,7 @@ export default class My extends Component {
         >
         </OrderCard>
         <View className='at-row fixed-bottom'>
-          <View className='at-col '><AtButton className='bg-blue'>立即接单</AtButton></View>
+        <View className='at-col '><AtButton className='bg-blue' disabled={!this.state.buttonShow} onClick={this.clickButton.bind(this)}>{this.state.buttonText}</AtButton></View>
           <View className='at-col '><AtButton >分享</AtButton></View>
         </View>
       </View>

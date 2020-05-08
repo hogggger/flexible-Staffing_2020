@@ -83,7 +83,7 @@ export default class Skeleton extends Component {
     console.log('status',status)
     if(!hasPhone){
       Taro.navigateTo({
-        url:'../../pages/phoneNumLogin/index'
+        url:'../../pages/agreement/index'
       })
     }else if (!hasId){
       Taro.navigateTo({

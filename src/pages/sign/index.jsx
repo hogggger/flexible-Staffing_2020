@@ -1,5 +1,7 @@
 import Taro , { Component, Config } from '@tarojs/taro';
 import { View, Button, Canvas } from '@tarojs/components';
+import {AtToast} from "taro-ui"
+import {contract_sign,base} from "../../config/base"
 import './index.scss'
 
 let ctx: any = Taro.createCanvasContext('canvas', this);
@@ -15,8 +17,19 @@ export default class Sign extends Component<any, any> {
   }
   state = {
     isPaint: false,
-    tempFilePath: ''
+    // tempFilePath: '',
+    contractId:'',
+    toastMessage:'提交中',
+    showToast:false,
+    toastStatus:''
   }
+  componentWillMount() {
+    // console.log('合同ID',this.$router.params.contractId)
+    let contractId = this.$router.params.contractId
+    this.setState({
+      contractId:contractId
+    })
+   }
 
   initCanvas() {
     ctx = Taro.createCanvasContext('canvas', this);
@@ -61,6 +74,15 @@ export default class Sign extends Component<any, any> {
   }
 
   createImg() {
+    //点击提交事件,显示轻通知
+    this.setState({
+      showToast:true,
+      toastMessage:'正在提交',
+      toastStatus:'loading'
+    })
+
+
+    let contractId = this.state.contractId
     if (!this.state.isPaint){
       Taro.showToast({
        title: '签名内容不能为空！',
@@ -77,18 +99,7 @@ export default class Sign extends Component<any, any> {
           tempFilePath: res.tempFilePath
         })
         // 上传图片,成功之后返回到订单页面,并且页面会重新刷新
-        // this.uploadSign(res.tempFilePath)
-        Taro.navigateBack({
-          delta:3,
-      //     success(res){
-      //       let page = Taro.getCurrentPages().pop();
-      //       console.log('page',page)
-      //       if(page == undefined || page == null){
-      //             return
-      //       }
-      //       page.onLoad();
-      // }
-        })
+        this.uploadSign(res.tempFilePath,contractId)
       },
       fail(err) {
         console.log(err)
@@ -96,21 +107,27 @@ export default class Sign extends Component<any, any> {
     })
   }
   // 上传图片
-  uploadSign(imgUrl){
+  uploadSign(imgUrl,contractId){
+    console.log('sign_contractId',contractId)
+    let token = Taro.getStorageSync("token");
     Taro.uploadFile({
-      // url: base+labor_identify,
+      url: base+contract_sign,
       header: {
-          'content-type': 'multipart/form-data',
+        'content-type': 'multipart/form-data',
+        'Authorization': token
       },
       name: 'sign',
       filePath: imgUrl,
       formData: {
         // 填入参数
+        'contractId':contractId
       },
       success: value => {
         console.log('value',value)
         // 成功则跳回原来的页面
-        // Taro.navigateBack()
+        Taro.navigateBack({
+          delta:3,
+        })
       }
   })
   }
@@ -160,8 +177,9 @@ export default class Sign extends Component<any, any> {
           <Button className="confirm" onClick={this.createImg.bind(this)}>提交</Button>
         </View>
 
-        <View>图片路径：</View>
-        <View className="word-break">{this.state.tempFilePath}</View>
+        {/* <View>图片路径：</View>
+        <View className="word-break">{this.state.tempFilePath}</View> */}
+        <AtToast isOpened={this.state.showToast} text={this.state.toastMessage}  status={this.state.toastStatus}></AtToast>
       </View>
     );
   }

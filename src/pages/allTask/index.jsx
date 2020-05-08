@@ -70,6 +70,7 @@ export default class AllTask extends Component {
     getOrderInfo(statusName) {
         api.get(order_list, { page: 1, limit: 10, status: statusName }).then(res => {
             console.log('订单', res.data.page.list)
+            // console.log('订单', res.data.page.list)
             let length = res.data.page.list.length
             let list = res.data.page.list
             if (length != 0) {
@@ -114,10 +115,10 @@ export default class AllTask extends Component {
         } else {
             // 确定当前订单,接收参数暂时不确定
             console.log('确定订单')
-            api.get(agreement_confirm, { order_id: orderId }).then(res => {
-                console.log(res)
-                // 如果订单确认成功应该刷新一下,重新调用this.getOrderInfo('confirm')
-            })
+            // api.get(agreement_confirm, { order_id: orderId }).then(res => {
+            //     console.log(res)
+            //     // 如果订单确认成功应该刷新一下,重新调用this.getOrderInfo('confirm')
+            // })
         }
     }
     // 查看详情

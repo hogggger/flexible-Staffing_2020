@@ -6,11 +6,15 @@ $cF8: #F8AF18;
 .canvas-box {
   border: 1Px solid #e4e4e4;
   margin-bottom: 30Px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
+  width: 350Px;
+  height: 350Px;
 }
 .canvas {
-  width: 100%;
-  height: 345Px;
+  width: 350Px;
+  height: 350Px;
 }
 
 .buttons {

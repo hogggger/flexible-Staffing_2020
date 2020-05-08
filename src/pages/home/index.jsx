@@ -87,7 +87,7 @@ export default class Home extends Component {
     let hasId = this.state.showIdNotice
     if (!hasPhone) {
       Taro.navigateTo({
-          url: '../../pages/phoneNumLogin/index'
+          url: '../../pages/agreement/index'
       })
   } else if (!hasId) {
       Taro.navigateTo({

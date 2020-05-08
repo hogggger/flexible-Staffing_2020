@@ -70,6 +70,10 @@ export default class My extends Component {
         url='../../pages/showPersonInfo/index';
         break;
       }
+      case 'agreement':{
+        url='../agreement/index';
+        break;
+      }
       default:
          url = null;
          break;
@@ -136,6 +140,7 @@ export default class My extends Component {
               extraText='详细信息'
               arrow='right'
               iconInfo={{ size: 25, color: "#82C272", value: "folder" }}
+              onClick={this.navigateTo.bind(this,'agreement')}
             />
             {/* <View data-way='123'  onClick={this.navigateTo.bind(this)}>123</View> */}
             <AtListItem

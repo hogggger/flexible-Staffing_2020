@@ -78,7 +78,7 @@ export default class IdentifyCard extends Component {
         return (
             <View>
                 <NavBar title='身份认证' back></NavBar>
-                <View className='padding-20'>完成认证需要合适你的身份信息,请拍摄你本人的身份证</View>
+                <View className='padding-20 at-article__p'>完成认证需要审核你的身份信息,请按顺序上传你本人的身份证(头像面、国徽面)</View>
                 {/* 身份证上传 */}
                 <View className='box-shadow-blue width-400 padding-top-40'>
                     {/* 引导上传框 */}
@@ -88,9 +88,8 @@ export default class IdentifyCard extends Component {
                     <View className='margin-top-50 text-center'>
                         <UploadImage guideImage={this.state.img.id2} side='back'></UploadImage>
                     </View>
-
-                    <AtButton className='bg-blue submit_button' onClick={this.navigateTo.bind(this)}>提交</AtButton>
                 </View>
+                <AtButton className='bg-blue submit_button' onClick={this.navigateTo.bind(this)}>提交</AtButton>
             </View>
         );
     }

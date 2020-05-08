@@ -5,6 +5,7 @@
 // base = "http://114.116.174.5:8080"
 // "http://192.168.20.105:99"
 // *******************
+// export const base = "http://192.168.20.105:99"
 export const base = "http://114.116.174.5:8080"
 export const register_sms = "/app/register/sms"
 export const register = "/app/register"
@@ -39,10 +40,13 @@ export const labor_contract ="/app/labor/contract/list"
 // agreement 获取当前协议
 export const agreement_confirm="/app/labor/agreement/confirm"
 export const agreement = "/app/labor/agreement"
+// 
+export const contract_sign = '/app/contract/sign'
+export const contract_preview=base+'/app/contract/preview?filename='
 // 图片路径
 // 身份证认证背景提示图片
-export const IdGuideImg=['id1.jpg','id2.jpg']
+// export const IdGuideImg=['id1.jpg','id2.jpg']
 // 订单细节icon
-export const orderDetailIcon=['missionName.png','missionPay.png','workingTime.png','missionContent.png']
+// export const orderDetailIcon=['missionName.png','missionPay.png','workingTime.png','missionContent.png']
 // 轮播照片
-export const SwiperList= ['swiper1.png','.swiper2.png','.swiper3.png']
+// export const SwiperList= ['swiper1.png','.swiper2.png','.swiper3.png']

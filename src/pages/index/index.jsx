@@ -34,7 +34,7 @@ export default class Index extends Component {
     if (!has) {
       // 没有手机号跳转到注册
       Taro.navigateTo({
-        url: '../phoneNumLogin/index'
+        url: '../agreement/index'
       })
     } else{
       this.setState({
