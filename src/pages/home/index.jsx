@@ -41,7 +41,7 @@ export default class Home extends Component {
   // 获取推荐订单
   getPubOrder() {
     // order_list order_pub
-    api.get(order_list, { page: 1, limit: 10, status: 'confirm' })
+    api.get(order_pub, { page: 1, limit: 10, status: 'confirm' })
       // api.get(order_pub,{page:1,limit:10})
       .then(res => {
         console.log('获取推荐订单', res.data.page.list)
@@ -129,12 +129,12 @@ export default class Home extends Component {
           <SwiperItem>
             <View className='height-300 background-swiper1'></View>
           </SwiperItem>
-          <SwiperItem>
+          {/* <SwiperItem>
             <View className='height-300 background-swiper2'></View>
-          </SwiperItem>
-          <SwiperItem>
+          </SwiperItem> */}
+          {/* <SwiperItem>
             <View className='height-300 background-swiper3'></View>
-          </SwiperItem>
+          </SwiperItem> */}
         </Swiper>
         {/* 订单卡片 */}
         <View className='bg-grey padding-bottom-20'>
@@ -146,18 +146,18 @@ export default class Home extends Component {
                     starttime={order.start_time} deadline={order.end_time} orderContent={order.mission_content}
                     orderTitle={order.order_name} onSkeletonNavigate={this.confirmTheTask.bind(this)}
                     orderstatus='normal' hasSign={order.sign_status}
-                ></Skeleton>
+                  ></Skeleton>
                 </View>
             })
             }
           </View>
-          <View className='padding-lrt-20'>
+          {/* <View className='padding-lrt-20'>
             <Skeleton buttonName='查看详情' tagName='市场营销' onSkeletonNavigate={this.navigatete.bind(this)} orderID={this.state.orderID}
             ></Skeleton>
           </View>
           <View className='padding-lrt-20'>
             <Skeleton buttonName='查看详情' tagName='市场营销'></Skeleton>
-          </View>
+          </View> */}
         </View>
         {/* 分隔 */}
         {/* 轻提示 */}

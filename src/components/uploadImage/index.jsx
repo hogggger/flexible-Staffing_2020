@@ -2,7 +2,7 @@ import Taro, { Component, Events } from "@tarojs/taro";
 import { View, Text, Image, Button } from "@tarojs/components";
 import  api  from "../../service/api"
 import {base,labor_identify} from "../../config/base"
-import { AtIcon } from "taro-ui";
+import { AtIcon,AtToast } from "taro-ui";
 import PropTypes from 'prop-types'
 import './index.scss'
 
@@ -25,6 +25,10 @@ export default class OrderCard extends Component {
         this.state = {
             showImage: '',
             uploaded: false,
+            // 轻提示
+            showToast:false,
+            toastText:'正在验证',
+            toastStatus:''
         }
     }
     componentWillMount() { }
@@ -45,7 +49,13 @@ export default class OrderCard extends Component {
             let token = Taro.getStorageSync("token");
             let form_token = Taro.getStorageSync("form_token")
             let side = this.props.side
-            Taro.chooseImage().then(res => {
+            Taro.chooseImage({
+            }).then(res => {
+                this.setState({
+                    showToast:true,
+                    toastText:'正在上传',
+                    toastStatus:'loading'
+                })
                 console.log('打印数据', res.tempFilePaths[0])
                 if (res.tempFilePaths[0]) {
                     Taro.uploadFile({
@@ -68,7 +78,9 @@ export default class OrderCard extends Component {
                                     this.setState({
                                         showImage: res.tempFilePaths[0],
                                         uploaded: true,
-                                        
+                                        showToast:true,
+                                        toastText:'验证通过',
+                                        toastStatus:'success'
                                     })
                                     //调用事件池,触发一个事件,将身份验证信息传回页面
                                     // Taro.eventCenter.trigger('identifyCarfInfo','true')
@@ -79,6 +91,11 @@ export default class OrderCard extends Component {
                                     // 失败,展示弹窗,让客户重新上传
                                     console.log('上传数据失败,请上传身份证正面')
                                     Taro.eventCenter.trigger('statusFront','false')
+                                    this.setState({
+                                        showToast:true,
+                                        toastText:'验证失败',
+                                        toastStatus:'error'
+                                    })
                                 }
                             }else if(side == 'back'){
                                 console.log('背面上传信息',value)
@@ -116,10 +133,19 @@ export default class OrderCard extends Component {
             Taro.eventCenter.trigger('statusBack','false')
         }
     }
-
+    // 轻提示关闭的侦听函数
+    closeToast(){
+        this.setState({
+            showToast:false
+        })
+    }
     render() {
+        let showToast = this.state.showToast
+        let toastText = this.state.toastText
+        let toastStatus = this.state.toastStatus
         return (
             <View onClick={this.chooseFile.bind(this)}>
+                <AtToast isOpened={showToast} text={toastText} status={toastStatus}  onClose={this.closeToast.bind(this)}></AtToast>
                 {!this.state.uploaded ?
                     <Image src={this.props.guideImage} ></Image>
                     : <View><Image src={this.state.showImage}></Image><Text class='at-icon at-icon-close-circle closeButton' onClick={this.deleteImage.bind(this)}></Text></View>

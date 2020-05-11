@@ -31,7 +31,8 @@ export default class My extends Component {
       // 底部按钮显示内容
      buttonText:'申请任务',
      buttonShow:true,
-     status:''
+     status:'',
+     orderId:''
     };
   }
   componentWillMount() {
@@ -39,6 +40,9 @@ export default class My extends Component {
     // 来调整不同的按钮
     console.log('这个是什么',this.$router.params)
     this.getOrderDetails(this.$router.params.id)
+    this.setState({
+      orderId:this.$router.params.id
+    })
     this.changePageByStatus(this.$router.params.status)
 
    }
@@ -126,9 +130,19 @@ export default class My extends Component {
     })
   }
   // 底部button的点击事件
+  // 订单详情页
   clickButton(){
+    let orderId = this.state.orderId
     let status = this.state.status
     console.log('从哪里点击进来的',status)
+    // status=confirm,确认任务
+    // status=normal
+    // status= active 上传凭证,传递任务订单号给上传凭证页
+    if(status == 'active'){
+      Taro.navigateTo({
+        url:`../workOutput/index?orderId=${orderId}`
+      })
+    }
   }
 
   render() {

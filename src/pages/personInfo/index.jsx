@@ -189,7 +189,11 @@ export default class PersonInfo extends Component {
         console.log("刷新的值", value)
         let laborInfo = value.data.labor
         setLaborIntoStorage(laborInfo)
-        Taro.navigateTo({
+        // Taro.navigateTo({
+        //   url:'../index/index'
+        // })
+        //使用redict清除掉页面栈
+        Taro.redirectTo({
           url:'../index/index'
         })
       })

@@ -154,6 +154,12 @@ export default class Sign extends Component<any, any> {
   componentWillUnmount () {
     ctx = null
   } 
+  // closeToast
+  closeToast(){
+    this.setState({
+      showToast:false
+    })
+  }
   render() {
     return (
       <View className="signature">
@@ -179,7 +185,7 @@ export default class Sign extends Component<any, any> {
 
         {/* <View>图片路径：</View>
         <View className="word-break">{this.state.tempFilePath}</View> */}
-        <AtToast isOpened={this.state.showToast} text={this.state.toastMessage}  status={this.state.toastStatus}></AtToast>
+        <AtToast isOpened={this.state.showToast} text={this.state.toastMessage} onClose={this.closeToast.bind(this)} status={this.state.toastStatus}></AtToast>
       </View>
     );
   }

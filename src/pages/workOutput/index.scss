@@ -4,7 +4,7 @@
     margin-right: auto;
     margin-left: auto;
     margin-top: 30px;
-    height: 1100px;
+    height: 900px;
 }
 // .hidden{
 //     display: none;
@@ -16,10 +16,12 @@
     overflow: hidden;
 }
 .submit_button{
-    // position: fixed;
-    // bottom: 40px;
-    // right: 0;
-    // left: 0;
     width: 650px;
     margin:50px auto 10px auto;
+}
+.imagePicker{
+    width: 600px;
+    // padding: 0 10px 0 10px;
+    margin-right: auto;
+    margin-left: auto;
 }

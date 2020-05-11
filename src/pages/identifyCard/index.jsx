@@ -1,6 +1,6 @@
 import Taro, { Component,Events } from "@tarojs/taro";
 import { View, Text, Input, Button, Image } from "@tarojs/components";
-import { AtButton } from "taro-ui";
+import { AtButton ,AtToast} from "taro-ui";
 import { labor_edit } from "../../config/base"
 import api  from "../../service/api"
 import NavBar from "taro-navigationbar"
@@ -57,6 +57,12 @@ export default class IdentifyCard extends Component {
         let statusFront = this.state.statusFront
         let statusBack = this.state.statusBack
         if( statusBack == 'true' && statusFront =='true'){
+            // 展示轻提示
+            this.setState({
+                showToast:true,
+                toastStatus:'',
+                toastText:'加载中'
+            })
             Taro.navigateTo({
                 url:'../personInfo/index'
             })
@@ -73,11 +79,20 @@ export default class IdentifyCard extends Component {
           }
       })
     }
+    // 轻消息的关闭函数
+    closeToast(){
+        this.setState({
+            showToast:false
+        })
+    }
     render() {
-
+        let showToast = this.state.showToast
+        let toastText = this.state.toastText
+        let toastStatus = this.state.toastStatus
         return (
             <View>
                 <NavBar title='身份认证' back></NavBar>
+                <AtToast isOpened={showToast} text={toastText} status={toastStatus}  onClose={this.closeToast.bind(this)}></AtToast>
                 <View className='padding-20 at-article__p'>完成认证需要审核你的身份信息,请按顺序上传你本人的身份证(头像面、国徽面)</View>
                 {/* 身份证上传 */}
                 <View className='box-shadow-blue width-400 padding-top-40'>

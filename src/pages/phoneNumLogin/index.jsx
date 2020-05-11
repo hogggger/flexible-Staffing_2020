@@ -60,7 +60,7 @@ export default class PersonNumLogin extends Component {
                 console.log('注册结果是',res)
                 // res.code = 0 msg:“注册成功”
                 if(res.data.code == 0){
-                    Taro.navigateTo({
+                    Taro.redirectTo({
                         url:'../index/index'
                     })
                     // 将返回的labor存入到缓存中

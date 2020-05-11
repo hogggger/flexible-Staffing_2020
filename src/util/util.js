@@ -44,11 +44,12 @@ const hasID = () => {
     else{return false}
     
 }
+
 module.exports = {
     getCapsulePosition,
     isTelPhone,
     logError,
     setLaborIntoStorage,
     hasMobile,
-    hasID
+    hasID,
 }

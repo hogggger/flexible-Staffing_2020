@@ -1,6 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Input, Button, Image } from "@tarojs/components";
-import { AtButton, AtTabs, AtTabsPane } from "taro-ui";
+import { AtButton, AtTabs, AtTabsPane ,AtToast} from "taro-ui";
 // import { AreaPicker } from "../../components/areaPicker/index"
 import NavBar from 'taro-navigationbar'
 import { NoData } from "../../components/noData/index"
@@ -29,6 +29,10 @@ export default class AllTask extends Component {
             hasPhoneNumber: false,
             // 是否有身份证
             hasIdNumber: false,
+            // 提示框
+            toastText:'加载中...',
+            showToast:false,
+            toastStatus:'loading'
 
         };
     }
@@ -46,8 +50,11 @@ export default class AllTask extends Component {
     componentWillUnmount() { }
 
     componentDidShow() {
-        this.getOrderInfo('confirm')
         // console.log("页面重新出现")
+        // 页面重新出现时,根据Curren值来确定获取对应订单
+        let statusName = ['confirm', 'pended', 'active', 'finish']
+        let current = this.state.current
+        this.getOrderInfo(statusName[current])
     }
 
     componentDidHide() { }
@@ -68,6 +75,10 @@ export default class AllTask extends Component {
     }
     // 指派订单
     getOrderInfo(statusName) {
+        // 显示加载框
+        this.setState({
+            showToast:true
+        })
         api.get(order_list, { page: 1, limit: 10, status: statusName }).then(res => {
             console.log('订单', res.data.page.list)
             // console.log('订单', res.data.page.list)
@@ -78,12 +89,12 @@ export default class AllTask extends Component {
                 this.setState({
                     orderArray: list,
                     showNoData: false,
-                    showLoading: false
+                    showToast: false
                 })
             } else {
                 this.setState({
                     showNoData: true,
-                    showLoading: false
+                    showToast: false
                 })
             }
         })
@@ -95,6 +106,9 @@ export default class AllTask extends Component {
     // }
     // onSkeletonNavigate 待确认
     confirmTheTask(arg1, arg2, e) {
+        this.setState({
+            showToast:true
+        })
         console.log('接任务', arg1, arg2, e)
         let orderId = arg1
         let hasSign = arg2
@@ -106,7 +120,7 @@ export default class AllTask extends Component {
             })
         } else if (!hasId) {
             Taro.navigateTo({
-                url: '../../pages/identifyCard/index'
+                url: '../identifyCard/index'
             })
         } else if (!hasSign) {
             Taro.navigateTo({
@@ -134,6 +148,12 @@ export default class AllTask extends Component {
             hasIdNumber: hasIdNumber
         })
     }
+    // closeToast
+    closeToast(){
+        this.setState({
+            showToast:false
+        })
+    }
     render() {
         let showNoData = this.state.showNoData
         let orderArray = this.state.orderArray
@@ -142,11 +162,11 @@ export default class AllTask extends Component {
         return (
             <View className=' tab-bg'>
                 {/* <NavBar title='我的任务' back></NavBar> */}
+                <AtToast  text={this.state.toastText} status={this.state.toastStatus} onClose={this.closeToast.bind(this)}  isOpened={this.state.showToast}></AtToast>
                 <AtTabs current={this.state.current} tabList={tabList} onClick={this.handleClick.bind(this)}>
 
                     <AtTabsPane className='padding-20' current={this.state.current} >
                         {/*加载框 */}
-                        <Loading showLoading={showLoading} />
                         {showNoData ?
                             <NoData></NoData>
                             : orderArray.map((order) => {
@@ -158,11 +178,9 @@ export default class AllTask extends Component {
                                 // 此处应该将是否有签署合同的状态量传进去
                             })
                         }
-
                     </AtTabsPane>
 
                     <AtTabsPane current={this.state.current} index={1}>
-                        <Loading showLoading={showLoading} />
                         {showNoData ?
                             <NoData></NoData>
                             : orderArray.map((order) => {
@@ -175,7 +193,6 @@ export default class AllTask extends Component {
                         }
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={2}>
-                        <Loading showLoading={showLoading} />
                         {showNoData ?
                             <NoData></NoData>
                             : orderArray.map((order) => {
@@ -189,7 +206,6 @@ export default class AllTask extends Component {
                         }
                     </AtTabsPane>
                     <AtTabsPane current={this.state.current} index={3}>
-                        <Loading showLoading={showLoading} />
                         {showNoData ?
                             <NoData></NoData>
                             : orderArray.map((order) => {
