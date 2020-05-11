@@ -1,6 +1,6 @@
-import Taro, { Component } from '@tarojs/taro'
-import { View, PickerView, PickerViewColumn } from '@tarojs/components'
-import PropTypes from 'prop-types'
+import Taro, { Component } from './node_modules/@tarojs/taro'
+import { View, PickerView, PickerViewColumn } from './node_modules/@tarojs/components'
+import PropTypes from './node_modules/prop-types'
 import api from '../../service/api'
 
 import './index.scss'

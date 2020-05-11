@@ -16,7 +16,6 @@ export default class OrderCard extends Component {
     componentDidShow() { }
 
     componentDidHide() { }
-
     render() {
         return (
             <View >
